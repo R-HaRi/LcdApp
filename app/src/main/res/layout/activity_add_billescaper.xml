@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Add_billescaper">
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:background="#000">
+
+        <TextView
+            android:id="@+id/heading11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Add Bill Escaper"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_details"
+        android:layout_margin="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F4E8E8">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Full Name"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name"
+                    android:inputType="textPersonName"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Phone number (Manditory)"
+                android:layout_marginTop="7dp"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/phone_number1"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Phone number (Optional)"
+                android:layout_marginTop="7dp"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/phone_number2"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Address"
+                android:layout_marginTop="7dp"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address"
+                    android:inputType="text"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Niyojakavargam"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/niyojakavargam"
+                    android:inputType="textPersonName"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Pin Code"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pincode"
+                    android:inputType="phone"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Amount"
+                android:layout_margin="7dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/amount"
+                    android:inputType="phone"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="#000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/heading12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/card_details"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Add Escaper Image"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/rr_img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_below="@id/heading12"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/plain_btn_boundry">
+
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_centerInParent="true"
+                    android:alpha="0.8"
+                    android:padding="35dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/camera" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Click here to add image"/>
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="200dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_add_escaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rr_img1"
+                android:layout_margin="8dp"
+                android:padding="7dp"
+                android:text="Add Bill Escaper"
+                android:textSize="18sp" />
+
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/progress_layout"/>
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InsertAdvActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_image"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/amethysta"
+        android:gravity="center"
+        android:text="Insert Image"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="#C2185B"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/admin_image"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/title_image"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_web"
+        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/amethysta"
+        android:gravity="center"
+        android:text="Insert Web Code"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="#C2185B"
+        android:layout_below="@id/admin_image"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/webinsert"
+        android:background="@drawable/border"
+        android:layout_below="@id/title_web"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/amethysta"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textColor="#C2185B"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Submit"
+        android:layout_centerVertical="true"
+        android:id="@+id/advsubmit"
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/border"
+        android:fontFamily="@font/amethysta"
+        android:layout_below="@id/webinsert"/>
+
+
+</RelativeLayout>

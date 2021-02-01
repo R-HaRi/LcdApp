@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LcdApp</string>
+    <string name="owner_role">LED Wall</string>
+</resources>

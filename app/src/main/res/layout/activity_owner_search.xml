@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OwnerSearchActivity">
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/search"
+        app:queryHint="Search Here"
+        app:iconifiedByDefault="true"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/searchsubmit"
+        android:layout_below="@id/search"
+        android:layout_centerVertical="true"
+        android:text="SUBMIT"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/poppins"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_ownerslist"
+        android:fontFamily="@font/poppins"
+        android:layout_below="@id/searchsubmit"
+        android:text="Owners List"
+        android:textSize="16sp"
+        android:textColor="#C2185B"
+        android:layout_marginStart="10dp"/>
+
+
+
+
+
+</RelativeLayout>

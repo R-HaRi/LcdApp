@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Admin_ownerProfile">
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:background="#F3A531">
+
+        <TextView
+            android:id="@+id/heading11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="Owner Profile"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/back_24"
+            android:layout_centerVertical="true"
+            android:padding="9dp"
+            android:id="@+id/back"/>
+    </RelativeLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl1"
+        android:layout_above="@id/admin_control_layout2">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/dashboard_data"
+        android:visibility="visible"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins"
+                android:text="Dummy name"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins"
+                android:text="dummy phone"
+                android:textColor="#fff" />
+
+            <TextView
+                android:id="@+id/role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:text="dummy type"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profilepic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="-50dp"
+            android:layout_marginEnd="25dp"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/dummylogo"
+            app:civ_border_color="#fff"
+            app:civ_border_width="2dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="#fff"
+            android:visibility="visible"
+            android:id="@+id/admin_control_layout"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/call_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="2dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:padding="6dp"
+                    android:src="@drawable/call_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:text="Call" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/message_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="2dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:padding="6dp"
+                    android:src="@drawable/whatsapp_dotted_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins"
+                    android:text="WhatsApp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="Bill Escapers list"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler"/>
+
+
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:visibility="visible"
+        android:id="@+id/admin_control_layout2"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/edit_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:src="@drawable/edit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins"
+                android:text="Edit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activate_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingBottom="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:src="@drawable/activate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:layout_gravity="center"
+                android:text="Activate" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/suspand_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingBottom="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:src="@drawable/suspand" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:layout_gravity="center"
+                android:text="Suspend" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/delete_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:src="@drawable/delete" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins"
+                android:text="Delete" />
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+    <include layout="@layout/progress_layout"/>
+    <include layout="@layout/error_layout"/>
+
+
+</RelativeLayout>
