@@ -73,12 +73,9 @@ public class LoginPage extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void getResponse() {
-
         progress_bar.setVisibility(View.VISIBLE);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(login_interface.JSON_URL)
@@ -97,13 +94,11 @@ public class LoginPage extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i("retrofit_response", response.body().toString());
-                        String jsonresponse = response.body();
+                        String jsonresponse = response.body().toString();
                         writeTv(jsonresponse);
-
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 progress_bar.setVisibility(View.GONE);
@@ -120,18 +115,17 @@ public class LoginPage extends AppCompatActivity {
             if (obj.optString("status").equalsIgnoreCase("true")) {
                 JSONArray dataArray = obj.getJSONArray("data");
                 JSONObject dataobj = dataArray.getJSONObject(0);
-
                 spm.setIslogged(true);
                 spm.setUid(dataobj.getString("uid"));
                 spm.setName(dataobj.getString("name"));
                 spm.setMobile(dataobj.getString("mobile"));
                 spm.setRole(dataobj.getString("role"));
                 spm.setImage(dataobj.getString("image"));
-                spm.setAddress(dataobj.getString("address"));
+                spm.setvillage(dataobj.getString("village"));
+                spm.setDistict( dataobj.getString("district") );
                 spm.setPincode(dataobj.getString("pincode"));
                 spm.setNeyojakavargam(dataobj.getString("neyojakavargam"));
                 spm.setP_status(dataobj.getString("p_status"));
-
                 progress_bar.setVisibility(View.GONE);
                 Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
                 if (spm.getRole().equalsIgnoreCase("admin")) {
@@ -142,7 +136,6 @@ public class LoginPage extends AppCompatActivity {
                     i.putExtra("uid",spm.getUid());
                     startActivity(i);
                 }
-
             } else if (obj.optString("status").equalsIgnoreCase("false")) {
                 progress_bar.setVisibility(View.GONE);
                 Toast.makeText(LoginPage.this, obj.optString("message") + "", Toast.LENGTH_SHORT).show();
@@ -150,7 +143,6 @@ public class LoginPage extends AppCompatActivity {
                 progress_bar.setVisibility(View.GONE);
                 Toast.makeText(LoginPage.this, "Error in server", Toast.LENGTH_SHORT).show();
             }
-
 
         } catch (JSONException e) {
             e.printStackTrace();

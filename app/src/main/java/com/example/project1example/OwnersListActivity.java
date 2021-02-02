@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ public class OwnersListActivity extends AppCompatActivity {
     String Base_URL,str_searchvalue;
     EditText search;
     Button btn_search;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,17 @@ public class OwnersListActivity extends AppCompatActivity {
         search=findViewById(R.id.search);
 
         str_searchvalue = search.getText().toString().trim();
+
+
+        configureToolbar();
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
+
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,4 +146,12 @@ public class OwnersListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
+    }
+
 }
