@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,7 @@ public class Pending_escapers_list extends AppCompatActivity {
     Boolean isLogged;
     SharedPrefs_model spm;
     String uidi;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,15 @@ public class Pending_escapers_list extends AppCompatActivity {
         recyclerlist = findViewById(R.id.recyclerlist);
         progress_layout = findViewById(R.id.progress_layout);
         error_layout = findViewById(R.id.error_layout);
+
+
+        configureToolbar();
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
 
         if (spm.getRole().equalsIgnoreCase("admin")){
             getResponseAdmin();
@@ -227,4 +238,12 @@ public class Pending_escapers_list extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
+    }
+
 }

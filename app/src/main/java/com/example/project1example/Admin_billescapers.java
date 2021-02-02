@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ public class Admin_billescapers extends AppCompatActivity {
     RecyclerView recyclerlist;
     String Base_URL;
     RelativeLayout progress_layout,error_layout;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,15 @@ public class Admin_billescapers extends AppCompatActivity {
         recyclerlist = findViewById(R.id.recyclerlist);
         progress_layout = findViewById(R.id.progress_layout);
         error_layout = findViewById(R.id.error_layout);
+
+        configureToolbar();
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
+
 
         getResponse();
     }
@@ -119,5 +130,14 @@ public class Admin_billescapers extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
     }
 }

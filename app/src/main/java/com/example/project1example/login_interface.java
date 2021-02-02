@@ -32,8 +32,8 @@ public interface login_interface {
 
     @POST("register_escaper.php")
     @FormUrlEncoded
-    Call<String> register_escaper(@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_address") String address,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") String pincode,
-                          @Field("ref_id") String ref_id,@Field("e_image") String image,@Field("status") String status);
+    Call<String> register_escaper(@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") String pincode,
+                          @Field("ref_id") String ref_id,@Field("e_image") String image,@Field("status") String status,@Field("e_description") String description);
 
     @POST("pending_escapers.php")
     @FormUrlEncoded

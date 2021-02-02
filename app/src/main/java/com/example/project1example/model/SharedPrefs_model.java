@@ -18,7 +18,9 @@ public class SharedPrefs_model {
     String islogged1 = "sp_login";
     String isReload1 = "sp_reload";
     String pwd = "sp_pwd";
-    String address = "sp_address";
+    String village = "sp_address";
+    String distict = "sp_distict";
+
     String pincode = "sp_pincode";
     String image = "sp_image";
     String neyojakavargam = "sp_neyojakavargam";
@@ -94,17 +96,15 @@ public class SharedPrefs_model {
 
 
 
-    public String getAddress() {
+    public String getvillage() {
 
-        return sharedPreferences.getString(address, "");
+        return sharedPreferences.getString(village, "");
     }
 
-    public void setAddress(String address1) {
-        editor.putString(address, address1);
+    public void setvillage(String village1) {
+        editor.putString(village, village1);
         editor.commit();
     }
-
-
 
     public String getPincode() {
 
@@ -142,4 +142,11 @@ public class SharedPrefs_model {
         editor.putString(p_status, p_status1);
         editor.commit();
     }
+
+    public String getDistict() {
+        return sharedPreferences.getString(distict, "");
+    }
+    public void setDistict(String distict1) {
+        editor.putString(distict, distict1);
+        editor.commit();    }
 }

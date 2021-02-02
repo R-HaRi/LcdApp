@@ -30,8 +30,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Add_billescaper extends AppCompatActivity {
 
-    String uid,str_name,str_phone_number1,str_phone_number2,str_address,str_niyojakavargam,str_pincode,str_amount,str_image;
-    EditText name,phone_number1,phone_number2,address,niyojakavargam,pincode,amount;
+    String uid,str_name,str_phone_number1,str_phone_number2,str_villege,str_district,str_niyojakavargam,str_pincode,str_amount,str_image,str_desc;
+    EditText name,phone_number1,phone_number2,villege,district,niyojakavargam,pincode,amount,description;
     ImageView image1;
     Button btn_add_escaper;
     RelativeLayout progress_layout;
@@ -45,10 +45,12 @@ public class Add_billescaper extends AppCompatActivity {
         name = findViewById(R.id.name);
         phone_number1 = findViewById(R.id.phone_number1);
         phone_number2 = findViewById(R.id.phone_number2);
-        address = findViewById(R.id.address);
+        villege = findViewById(R.id.villege);
+        district=findViewById( R.id.distict );
         niyojakavargam = findViewById(R.id.niyojakavargam);
         pincode = findViewById(R.id.pincode);
         amount = findViewById(R.id.amount);
+        description=findViewById( R.id.description );
         image1 = findViewById(R.id.image1);
         progress_layout = findViewById(R.id.progress_layout);
 
@@ -87,7 +89,7 @@ public class Add_billescaper extends AppCompatActivity {
                 .client(okHttpClient)
                 .build();
         login_interface api = retrofit.create(login_interface.class);
-        Call<String> call = api.register_escaper(str_name,str_phone_number1,str_phone_number2,str_amount,str_address,str_niyojakavargam,str_pincode,uid,"","pending");
+        Call<String> call = api.register_escaper(str_name,str_phone_number1,str_phone_number2,str_amount,str_villege,str_district,str_niyojakavargam,str_pincode,uid,"","pending",str_desc);
         call.enqueue(new Callback<String>(){
 
             @Override
@@ -141,9 +143,11 @@ public class Add_billescaper extends AppCompatActivity {
         str_name = name.getText().toString();
         str_phone_number1 = phone_number1.getText().toString().trim();
         str_phone_number2 = phone_number2.getText().toString().trim();
-        str_address = address.getText().toString();
+        str_villege = villege.getText().toString();
+        str_district=district.getText().toString();
         str_pincode = pincode.getText().toString();
         str_amount = amount.getText().toString().trim();
+        str_desc=description.getText().toString().trim();
         str_niyojakavargam = niyojakavargam.getText().toString();
 
 //        try {//for converting image to base64 encoding

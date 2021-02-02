@@ -128,7 +128,7 @@ public class BillEscapersActivity extends AppCompatActivity {
                     retroModel.setAmount(dataobj.getString("e_amount"));
                     retroModel.setName(dataobj.getString("e_name"));
                     retroModel.setImage(dataobj.getString("e_image"));
-                    retroModel.setAddress(dataobj.getString("e_address"));
+                    retroModel.setAddress(dataobj.getString("e_village")+dataobj.getString("e_district"));
                     retroModel.setNeyojakavargam(dataobj.getString("e_neyojakavargam"));
                     retroModel.setMobile1(dataobj.getString("e_mobile1"));
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));
