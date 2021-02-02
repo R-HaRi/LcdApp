@@ -54,4 +54,9 @@ public interface login_interface {
     @POST("all_billescapers.php")
     @FormUrlEncoded
     Call<String> all_billescapers(@Field("status") String status);
+
+    @POST("delete_billescapers.php")
+    @FormUrlEncoded
+    Call<String> delete_billescapers(@Field("bid") String bid);
+
 }
