@@ -309,6 +309,7 @@ public class Admin_ownerProfile extends AppCompatActivity {
                 JSONArray dataArray = obj.getJSONArray("data");
                 for (int i = 0; i < dataArray.length(); i++){
                     billescapers_list_model retroModel = new billescapers_list_model();
+                    
                     JSONObject dataobj = dataArray.getJSONObject(i);
                     retroModel.setBid(dataobj.getString("bid"));
                     retroModel.setAmount(dataobj.getString("e_amount"));
