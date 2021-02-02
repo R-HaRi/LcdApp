@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdminPanelActivity extends AppCompatActivity {
-    Button addowner,getownerlist,aceptbillesc,all_billescapers;
+    Button addowner,getownerlist,aceptbillesc,all_billescapers,addAdvertisement;
     SharedPreferences sharedPreferences;
     Boolean isLogged;
     @Override
@@ -22,6 +22,7 @@ public class AdminPanelActivity extends AppCompatActivity {
         getownerlist = findViewById(R.id.getownerlist);
         aceptbillesc = findViewById(R.id.aceptbillesc);
         all_billescapers = findViewById(R.id.all_billescapers);
+        addAdvertisement=findViewById( R.id.addads );
         addowner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +47,24 @@ public class AdminPanelActivity extends AppCompatActivity {
 
             }
         });
+
+        addAdvertisement.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AdminPanelActivity.this,AddAdvertisement.class);
+                startActivity(i);
+            }
+        } );
+
+
+        all_billescapers.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AdminPanelActivity.this,Admin_billescapers.class);
+                startActivity(i);
+            }
+        } );
+
     }
 
 }
