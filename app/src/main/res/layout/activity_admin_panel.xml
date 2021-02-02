@@ -7,58 +7,80 @@
     tools:context=".AdminPanelActivity"
     android:orientation="vertical"
     android:gravity="center">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Add Owner"
-            android:id="@+id/addowner"
-            android:textAlignment="center"
-            android:layout_margin="20dp"
-            android:fontFamily="@font/amethysta" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Get Owner List"
-            android:id="@+id/getownerlist"
-            android:textAlignment="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/border"
-            android:fontFamily="@font/amethysta"/>
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addowner"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Add Advertisement"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/button_bg"
+        android:fontFamily="@font/amethysta"
+        android:text="Add Owner"
+        android:textColor="@color/white"
+        android:theme="@style/MatButtonSourceCodse"
+        app:cornerRadius="20dp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/getownerlist"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/button_bg"
+        android:fontFamily="@font/amethysta"
+        android:text="Get Owner List"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:theme="@style/MatButtonSourceCodse"
+        app:cornerRadius="20dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addads"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:fontFamily="@font/amethysta"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Accept Bill Escapers"
+        android:backgroundTint="@color/button_bg"
+        android:fontFamily="@font/amethysta"
+        android:text="Add Advertisement"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:theme="@style/MatButtonSourceCodse"
+        app:cornerRadius="20dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/aceptbillesc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:fontFamily="@font/amethysta"/>
-    <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Delete/Edit Bill Escapers"
-        android:id="@+id/all_billescapers"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/border"
-        android:fontFamily="@font/amethysta"/>
+        android:backgroundTint="@color/button_bg"
+        android:fontFamily="@font/amethysta"
+        android:text="Accept Bill Escapers"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:theme="@style/MatButtonSourceCodse"
+        app:cornerRadius="20dp" />
+
+    <Button
+        android:id="@+id/all_billescapers"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/button_bg"
+        android:fontFamily="@font/amethysta"
+        android:text="Delete/Edit Bill Escapers"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:theme="@style/MatButtonSourceCodse"
+        app:cornerRadius="20dp" />
 
 
 
