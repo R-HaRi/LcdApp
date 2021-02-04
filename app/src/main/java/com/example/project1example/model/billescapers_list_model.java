@@ -13,6 +13,7 @@ public class billescapers_list_model implements Serializable {
     private String name;
     private String image;
     private String address;
+    private String district;
     private String neyojakavargam;
     private String pincode;
     private String created_on;
@@ -134,5 +135,13 @@ public class billescapers_list_model implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }

@@ -22,9 +22,13 @@
         android:theme="@style/Theme.Project1Example"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme,android:label">
-        <activity android:name=".Admin_editBillescapers"></activity>
+        <activity android:name=".Admin_editBillescapers">
+
+        </activity>
         <activity android:name=".AddAdvertisement" />
-        <activity android:name=".Admin_billescaperprofile" />
+        <activity android:name=".Admin_billescaperprofile">
+
+        </activity>
         <activity android:name=".Admin_billescapers" />
         <activity android:name=".Admin_ownerProfile" />
         <activity android:name=".Edit_owner" />
@@ -45,6 +49,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
         <activity android:name=".Dashboard" />
         <activity android:name=".MainActivity" />

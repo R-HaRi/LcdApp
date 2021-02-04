@@ -30,6 +30,10 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> get_escapers_uid(@Field("ref_id") String ref_id);
 
+    @POST("get_escaper_profile_bid.php")
+    @FormUrlEncoded
+    Call<String> get_escaper_profile_bid(@Field("bid") String bid);
+
     @POST("register_escaper.php")
     @FormUrlEncoded
     Call<String> register_escaper(@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") String pincode,

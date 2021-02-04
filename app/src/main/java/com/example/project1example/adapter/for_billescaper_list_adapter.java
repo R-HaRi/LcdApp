@@ -52,10 +52,11 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.name.setText(retroModelArrayList.get(i).getName());
-        myViewHolder.address.setText(retroModelArrayList.get(i).getAddress());
         myViewHolder.amount.setText("Rs. "+retroModelArrayList.get(i).getAmount());
         myViewHolder.mobilenumber1.setText(retroModelArrayList.get(i).getMobile1());
         myViewHolder.mobilenumber2.setText(retroModelArrayList.get(i).getMobile2());
+        myViewHolder.village.setText(retroModelArrayList.get(i).getAddress());
+        myViewHolder.district.setText(retroModelArrayList.get(i).getDistrict());
         myViewHolder.neyojakavargam.setText(retroModelArrayList.get(i).getNeyojakavargam());
         myViewHolder.pincode.setText(retroModelArrayList.get(i).getPincode());
         myViewHolder.created_on.setText(retroModelArrayList.get(i).getCreated_on());
@@ -79,7 +80,7 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name,address,amount,mobilenumber1,mobilenumber2,neyojakavargam,pincode,created_on;
+        TextView name,amount,mobilenumber1,mobilenumber2,village,district,neyojakavargam,pincode,created_on;
         ImageView profile_img;
         CardView card1;
         ExpandableLinearLayout expandableView;
@@ -107,10 +108,11 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            address = itemView.findViewById(R.id.address);
             amount = itemView.findViewById(R.id.amount);
             mobilenumber1 = itemView.findViewById(R.id.mobilenumber1);
             mobilenumber2 = itemView.findViewById(R.id.mobilenumber2);
+            village= itemView.findViewById(R.id.villagerv);
+            district= itemView.findViewById(R.id.district);
             neyojakavargam = itemView.findViewById(R.id.neyojakavargam);
             pincode = itemView.findViewById(R.id.pincode);
             created_on = itemView.findViewById(R.id.created_on);
