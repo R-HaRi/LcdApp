@@ -44,7 +44,8 @@ public class for_pendingbillescaper_list_adapter extends RecyclerView.Adapter<fo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.name.setText(retroModelArrayList.get(i).getName());
-        myViewHolder.address.setText(retroModelArrayList.get(i).getAddress());
+        myViewHolder.village.setText(retroModelArrayList.get(i).getAddress());
+        myViewHolder.district.setText(retroModelArrayList.get(i).getDistrict());
         myViewHolder.amount.setText("Rs. "+retroModelArrayList.get(i).getAmount());
         myViewHolder.mobilenumber1.setText(retroModelArrayList.get(i).getMobile1());
         myViewHolder.created_on.setText(retroModelArrayList.get(i).getCreated_on());
@@ -62,7 +63,7 @@ public class for_pendingbillescaper_list_adapter extends RecyclerView.Adapter<fo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name,address,amount,mobilenumber1,created_on,status;
+        TextView name,village,district,amount,mobilenumber1,created_on,status;
         CardView card1;
 
 
@@ -70,7 +71,8 @@ public class for_pendingbillescaper_list_adapter extends RecyclerView.Adapter<fo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            address = itemView.findViewById(R.id.address);
+            village = itemView.findViewById(R.id.village);
+            district = itemView.findViewById(R.id.district);
             amount = itemView.findViewById(R.id.amount);
             mobilenumber1 = itemView.findViewById(R.id.mobilenumber1);
             created_on = itemView.findViewById(R.id.created_on);

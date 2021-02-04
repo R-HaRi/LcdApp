@@ -125,7 +125,8 @@ public class Pending_escapers_list extends AppCompatActivity {
                     retroModel.setAmount(dataobj.getString("e_amount"));
                     retroModel.setName(dataobj.getString("e_name"));
                     retroModel.setImage(dataobj.getString("e_image"));
-                    retroModel.setAddress(dataobj.getString("e_address"));
+                    retroModel.setAddress(dataobj.getString("e_village"));
+                    retroModel.setDistrict(dataobj.getString("e_district"));
                     retroModel.setNeyojakavargam(dataobj.getString("e_neyojakavargam"));
                     retroModel.setMobile1(dataobj.getString("e_mobile1"));
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));
@@ -166,6 +167,7 @@ public class Pending_escapers_list extends AppCompatActivity {
         login_interface api = retrofit.create(login_interface.class);
         uidi = getIntent().getStringExtra("uid");
         Call<String> Call = api.get_escapers_uid(uidi);
+
         Call.enqueue(new Callback<String>(){
 
             @Override
@@ -208,7 +210,8 @@ public class Pending_escapers_list extends AppCompatActivity {
                     retroModel.setAmount(dataobj.getString("e_amount"));
                     retroModel.setName(dataobj.getString("e_name"));
                     retroModel.setImage(dataobj.getString("e_image"));
-                    retroModel.setAddress(dataobj.getString("e_address"));
+                    retroModel.setAddress(dataobj.getString("e_village"));
+                    retroModel.setDistrict(dataobj.getString("e_district"));
                     retroModel.setNeyojakavargam(dataobj.getString("e_neyojakavargam"));
                     retroModel.setMobile1(dataobj.getString("e_mobile1"));
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));

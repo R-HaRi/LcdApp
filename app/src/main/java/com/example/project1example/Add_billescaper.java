@@ -47,7 +47,7 @@ public class Add_billescaper extends AppCompatActivity {
         phone_number2 = findViewById(R.id.phone_number2);
         villege = findViewById(R.id.villege);
         district=findViewById( R.id.distict );
-        niyojakavargam = findViewById(R.id.niyojakavargam);
+        niyojakavargam = findViewById(R.id.neyojakavargam);
         pincode = findViewById(R.id.pincode);
         amount = findViewById(R.id.amount);
         description=findViewById( R.id.description );
@@ -140,6 +140,7 @@ public class Add_billescaper extends AppCompatActivity {
     }
 
     private void val_vals() {
+
         str_name = name.getText().toString();
         str_phone_number1 = phone_number1.getText().toString().trim();
         str_phone_number2 = phone_number2.getText().toString().trim();

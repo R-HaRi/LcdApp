@@ -31,6 +31,10 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> get_escapers_uid(@Field("ref_id") String ref_id);
 
+    @POST("get_escaper_profile_bid.php")
+    @FormUrlEncoded
+    Call<String> get_escaper_profile_bid(@Field("bid") String bid);
+
     @POST("register_escaper.php")
     @FormUrlEncoded
     Call<String> register_escaper(@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") String pincode,
@@ -56,6 +60,7 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> all_billescapers(@Field("status") String status);
 
+<<<<<<< HEAD
 
     @POST("add_advertisement.php")
     @FormUrlEncoded
@@ -70,5 +75,10 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> get_ad_id(@Field("ad_number") String ad_number);
 
+=======
+    @POST("delete_billescapers.php")
+    @FormUrlEncoded
+    Call<String> delete_billescapers(@Field("bid") String bid);
+>>>>>>> 776e7468e7be75423224d78e705c08a5fa0cae01
 
 }
