@@ -115,6 +115,13 @@ public class LoginPage extends AppCompatActivity {
             if (obj.optString("status").equalsIgnoreCase("true")) {
                 JSONArray dataArray = obj.getJSONArray("data");
                 JSONObject dataobj = dataArray.getJSONObject(0);
+
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("islogged", true);
+                editor.apply();
+
+
                 spm.setIslogged(true);
                 spm.setUid(dataobj.getString("uid"));
                 spm.setName(dataobj.getString("name"));

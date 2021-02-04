@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ad1"
+        android:checkable="false"
+        android:enabled="true"
+        android:orderInCategory="0"
+        android:visible="true"
+        android:title="Ad1"
+        />
+    <item
+        android:id="@+id/ad2"
+        android:checkable="false"
+        android:enabled="true"
+        android:orderInCategory="0"
+        android:visible="true"
+        android:title="Ad2"
+        />
+    <item
+        android:id="@+id/ad3"
+        android:checkable="false"
+        android:enabled="true"
+        android:orderInCategory="0"
+        android:visible="true"
+        android:title="Ad3"
+        />
+
+
+</menu>

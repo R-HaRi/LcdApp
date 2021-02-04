@@ -125,9 +125,8 @@ public class OwnersListActivity extends AppCompatActivity {
                     retroModel.setRole(dataobj.getString("role"));
                     retroModel.setName(dataobj.getString("name"));
                     retroModel.setMobile(dataobj.getString("mobile"));
-
                     retroModel.setImage(dataobj.getString("image"));
-                    retroModel.setAddress(dataobj.getString("address"));
+                    retroModel.setAddress(dataobj.getString("village")+dataobj.getString("district"));
                     retroModel.setNeyojakavargam(dataobj.getString("neyojakavargam"));
                     retroModel.setPincode(dataobj.getString("pincode"));
                     retroModel.setCreated_on(dataobj.getString("created_on"));

@@ -74,7 +74,6 @@ public class SharedPrefs_model {
     public Boolean getIslogged() {
         return sharedPreferences.getBoolean(islogged1, false);
     }
-
     public void setIslogged(Boolean islogged) {
         editor.putBoolean(islogged1, islogged);
         editor.commit();

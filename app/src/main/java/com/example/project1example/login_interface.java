@@ -14,13 +14,14 @@ public interface login_interface {
 
     @POST("register.php")
     @FormUrlEncoded
-    Call<String> register(@Field("name") String name, @Field("mobile") String mobile, @Field("address") String address,@Field("neyojakavargam") String neyojakavargam,@Field("pincode") String pincode,
+    Call<String> register(@Field("name") String name, @Field("mobile") String mobile, @Field("village") String village,@Field("district") String district,@Field("neyojakavargam") String neyojakavargam,@Field("pincode") String pincode,
                           @Field("password") String password,@Field("role") String role,@Field("image") String image,@Field("p_status") String p_status);
 
 
     @POST("get_owners_list.php")
     @FormUrlEncoded
     Call<String> get_owners_list(@Field("role") String role);
+
     @POST("get_profile_uid.php")
     @FormUrlEncoded
     Call<String> get_profile_uid(@Field("uid") String uid);
@@ -54,4 +55,20 @@ public interface login_interface {
     @POST("all_billescapers.php")
     @FormUrlEncoded
     Call<String> all_billescapers(@Field("status") String status);
+
+
+    @POST("add_advertisement.php")
+    @FormUrlEncoded
+    Call<String> add_advertisement(@Field("ad_number") String ad_number,@Field("image") String image,@Field("weblink") String weblink);
+
+    @POST("update_advertisement.php")
+    @FormUrlEncoded
+    Call<String> update_advertisement(@Field("ad_number") String ad_number,@Field("image") String image,@Field("weblink") String weblink,@Field("imagepath") String imagepath);
+
+
+    @POST("get_ad_id.php")
+    @FormUrlEncoded
+    Call<String> get_ad_id(@Field("ad_number") String ad_number);
+
+
 }

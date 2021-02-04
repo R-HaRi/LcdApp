@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.project1example">
+    package="com.example.project1example" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -21,8 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1Example"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme,android:label">
-        <activity android:name=".AddAdvertisement"></activity>
+        tools:replace="android:theme,android:label" >
+        <activity android:name=".LoginPage" >
+        </activity>
+        <activity android:name=".AddAdvertisement" />
         <activity android:name=".Admin_billescaperprofile" />
         <activity android:name=".Admin_billescapers" />
         <activity android:name=".Admin_ownerProfile" />
@@ -30,7 +33,6 @@
         <activity android:name=".Pending_escapers_list" />
         <activity android:name=".Add_billescaper" />
         <activity android:name=".Owner_Register" />
-        <activity android:name=".WebViewActivity" />
         <activity android:name=".InsertAdvActivity" />
         <activity android:name=".AdminPanelActivity" />
         <activity android:name=".BillEscapersActivity" />
@@ -38,7 +40,7 @@
         <activity android:name=".OwnerPageActivity" />
         <activity android:name=".OwnersListActivity" />
         <activity android:name=".OwnerSearchActivity" />
-        <activity android:name=".LoginPage">
+        <activity android:name=".WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

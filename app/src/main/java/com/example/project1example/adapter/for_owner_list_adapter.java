@@ -2,6 +2,7 @@ package com.example.project1example.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,11 +52,15 @@ public class for_owner_list_adapter extends RecyclerView.Adapter<for_owner_list_
         myViewHolder.p_creaed_on.setText(retroModelArrayList.get(i).getCreated_on());
         Glide.with(context1).load(login_interface.JSON_URL + retroModelArrayList.get(i).getImage()).placeholder(R.drawable.dummylogo).into(myViewHolder.img);
 
+
         myViewHolder.vender_cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.d( "imgcheck","1234"+retroModelArrayList.get( i ).getImage() );
                 Intent j = new Intent(context1, Admin_ownerProfile.class);
                 j.putExtra("uid", retroModelArrayList.get(i).getUid());
+
                 context1.startActivity(j);
             }
         });

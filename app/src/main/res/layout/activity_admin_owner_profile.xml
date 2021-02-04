@@ -6,37 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Admin_ownerProfile">
 
-    <RelativeLayout
-        android:id="@+id/rl1"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"
-        android:background="#F3A531">
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
 
-        <TextView
-            android:id="@+id/heading11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins"
-            android:text="Owner Profile"
-            android:textColor="#fff"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:src="@drawable/back_24"
-            android:layout_centerVertical="true"
-            android:padding="9dp"
-            android:id="@+id/back"/>
-    </RelativeLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl1"
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/admin_control_layout2">
 
 
