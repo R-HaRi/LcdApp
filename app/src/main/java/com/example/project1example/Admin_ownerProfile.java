@@ -1,11 +1,16 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,8 +44,12 @@ public class Admin_ownerProfile extends AppCompatActivity {
     TextView name,mobile,role;
     ImageView profilepic;
     RecyclerView recyclerView;
-    LinearLayout admin_control_layout,activate_lv,suspand_lv,delete_lv,edit_lv;
+    LinearLayout admin_control_layout,activate_lv,suspand_lv,delete_lv,edit_lv,call;
     SharedPrefs_model spm;
+    Toolbar toolbar;
+    int MY_PERMISSIONS_REQUEST_CALL_PHONE=101;
+    String Phone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +68,21 @@ public class Admin_ownerProfile extends AppCompatActivity {
         suspand_lv=findViewById(R.id.suspand_lv);
         delete_lv=findViewById(R.id.delete_lv);
         edit_lv=findViewById(R.id.edit_lv);
+        call=findViewById( R.id.call_lv );
         spm = new SharedPrefs_model(this);
+
+
+        configureToolbar();
+
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
+
+
+
 
         getResponseprofile();
         getResponseAdmin();
@@ -99,9 +122,24 @@ public class Admin_ownerProfile extends AppCompatActivity {
             }
         });
 
+     call.setOnClickListener( new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             Phone = str_mobile;
+
+
+             Intent callIntent = new Intent(Intent.ACTION_CALL);
+             callIntent.setData(Uri.parse(Phone));
+             if (ActivityCompat.checkSelfPermission(Admin_ownerProfile.this,
+                     Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                 return;
+             }
+             startActivity(callIntent);
+         }
+     } );
+
 
     }
-
     private void getResponse_pstatusdelete() {
         progress_layout.setVisibility(View.VISIBLE);
 
@@ -315,7 +353,7 @@ public class Admin_ownerProfile extends AppCompatActivity {
                     retroModel.setAmount(dataobj.getString("e_amount"));
                     retroModel.setName(dataobj.getString("e_name"));
                     retroModel.setImage(dataobj.getString("e_image"));
-                    retroModel.setAddress(dataobj.getString("e_address"));
+                    retroModel.setAddress(dataobj.getString("e_village")+dataobj.getString("e_district"));
                     retroModel.setNeyojakavargam(dataobj.getString("e_neyojakavargam"));
                     retroModel.setMobile1(dataobj.getString("e_mobile1"));
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));
@@ -323,7 +361,6 @@ public class Admin_ownerProfile extends AppCompatActivity {
                     retroModel.setCreated_on(dataobj.getString("e_created_on"));
                     retroModel.setO_name(dataobj.getString("name"));
                     retroModel.setStatus(dataobj.getString("status"));
-
                     retroModelArrayList.add(retroModel);
                 }
                 progress_layout.setVisibility(View.GONE);
@@ -346,5 +383,12 @@ public class Admin_ownerProfile extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Owner Profile" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
     }
 }
