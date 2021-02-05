@@ -71,6 +71,8 @@ public class BillEscapersActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(BillEscapersActivity.this,Pending_escapers_list.class);
                 i.putExtra("uid",uidi);
+                Log.d( "billescapersuid",uidi );
+
                 startActivity(i);
             }
         });

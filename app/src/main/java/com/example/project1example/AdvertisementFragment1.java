@@ -1,9 +1,14 @@
 package com.example.project1example;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +47,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -50,49 +63,70 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
 
 public class AdvertisementFragment1 extends Fragment {
     View view;
-   ImageView imageView;
-   EditText editText;
-    private int PICK_IMAGE = 123;
-    Uri imageUri;
-    Button post,update;
+
+    private boolean permission = false;
+    int img_click;
+    String val_logo;
+
+
+    ImageView i2;
+
+    EditText editText;
+    Button post, update;
     int i;
     String WebUrl;
     RelativeLayout progress_layout;
     String Base_URL;
     private final int CAMERA_RESULT = 101, GALLERY_RESULT = 102;
     String imagePath;
-    int img_click;
-    private  boolean permission=false;
+
 
     public AdvertisementFragment1(int i) {
-        this.i=i;
+        this.i = i;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate( R.layout.fragment_advertisement1, container, false );
-        imageView=view.findViewById( R.id.addadvert );
-        editText=view.findViewById( R.id.weblink );
-        progress_layout = view.findViewById(R.id.progress_layout);
+        i2 = view.findViewById( R.id.addadvert );
+        editText = view.findViewById( R.id.weblink );
+        progress_layout = view.findViewById( R.id.progress_layout );
 
         getAddData( String.valueOf( i ) );
 
-        imageView.setOnClickListener( new View.OnClickListener() {
+        i2.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                img_click=1;
-                cameragallery(imageView);
+                img_click = 1;
+                cameragallery( i2 );
             }
         } );
 
 
-        post=view.findViewById( R.id.postAdd );
+        try {//for converting image to base64 encoding
+            if (i2.getDrawable() == null) {
+                val_logo = "";
+//                        Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+            } else {
+                Bitmap image = ((BitmapDrawable) i2.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteA = new ByteArrayOutputStream();
+                image.compress( Bitmap.CompressFormat.JPEG, 100, byteA );
+                val_logo = Base64.encodeToString( byteA.toByteArray(), Base64.DEFAULT );
+            }
+        } catch (Exception e) {
+//                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+        }
+
+
+        post = view.findViewById( R.id.postAdd );
         post.setVisibility( View.GONE );
-        update=view.findViewById( R.id.update );
+        update = view.findViewById( R.id.update );
 
 
 //        post.setOnClickListener( new View.OnClickListener() {
@@ -108,9 +142,9 @@ public class AdvertisementFragment1 extends Fragment {
         update.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebUrl=editText.getText().toString().trim();
-                Log.i("edittext","123"+ WebUrl);
-                getresponse1( String.valueOf( i ),imageUri.toString(),WebUrl,imagePath);
+                WebUrl = editText.getText().toString().trim();
+                Log.i( "edittext", "123" + WebUrl );
+                getresponse1( String.valueOf( i ), val_logo, WebUrl, imagePath );
 
             }
         } );
@@ -120,64 +154,51 @@ public class AdvertisementFragment1 extends Fragment {
     }
 
 
+    protected void getAddData(String adnum) {
+        progress_layout.setVisibility( View.VISIBLE );
+        Base_URL = login_interface.JSON_URL;
+        Retrofit retrofit = new Retrofit.Builder().baseUrl( Base_URL ).
+                addConverterFactory( ScalarsConverterFactory.create() ).build();
+        login_interface api = retrofit.create( login_interface.class );
+        Call<String> call = api.get_ad_id( adnum );
 
+        call.enqueue( new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data){
-//        super.onActivityResult(requestCode, resultCode, data);
-//            imageUri = data.getData();
-//            imageView.setImageURI(imageUri);
-//    }
+                        progress_layout.setVisibility( View.GONE );
+                        Log.i( "onsuccess", response.body().toString() );
+                        String jsonresponse = response.body().toString();
+                        writeAddData( jsonresponse );
+                    } else {
+                        Log.i( "onEmptyResponse", "Returned empty response" );
+                    }
+                }
+            }
 
-
-
-   protected void  getAddData(String adnum){
-       progress_layout.setVisibility(View.VISIBLE);
-       Base_URL = login_interface.JSON_URL;
-       Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).
-               addConverterFactory( ScalarsConverterFactory.create()).build();
-       login_interface api=retrofit.create( login_interface.class );
-       Call<String> call=api.get_ad_id( adnum );
-
-       call.enqueue( new Callback<String>() {
-           @Override
-           public void onResponse(Call<String> call, Response<String> response) {
-               if (response.isSuccessful()) {
-                   if (response.body() != null) {
-
-                       progress_layout.setVisibility(View.GONE);
-                       Log.i("onsuccess", response.body().toString());
-                       String jsonresponse = response.body().toString();
-                       writeAddData(jsonresponse);
-                   } else {
-                       Log.i("onEmptyResponse", "Returned empty response");
-                   }
-               }
-           }
-
-           @Override
-           public void onFailure(Call<String> call, Throwable t) {
-               progress_layout.setVisibility(View.GONE);
-               Log.i("retrofail", "Failed");
-           }
-       } );
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progress_layout.setVisibility( View.GONE );
+                Log.i( "retrofail", "Failed" );
+            }
+        } );
     }
 
     private void writeAddData(String jsonresponse) {
         try {
-            JSONObject obj = new JSONObject(jsonresponse);
-            if (obj.optString("status").equalsIgnoreCase("true")){
-                JSONArray dataArray = obj.getJSONArray("data");
-                JSONObject dataobj = dataArray.getJSONObject(0);
+            JSONObject obj = new JSONObject( jsonresponse );
+            if (obj.optString( "status" ).equalsIgnoreCase( "true" )) {
+                JSONArray dataArray = obj.getJSONArray( "data" );
+                JSONObject dataobj = dataArray.getJSONObject( 0 );
 
                 editText.setText( dataobj.getString( "weblink" ) );
-                imagePath=dataobj.getString( "image" );
-             //   Glide.with(getContext()).load( Base_URL + imagePath).into(imageView);
-//                Uri uri;
-//                uri = Uri.parse(dataobj.getString( "image" ));
-//                imageView.setImageURI( uri );
+                imagePath = dataobj.getString( "image" );
+                Glide.with( getContext() ).load( Base_URL + imagePath ).into( i2 );
 
-            } else if (obj.optString("status").equalsIgnoreCase("false")) {
+
+            } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
                 Toast.makeText( getContext(), "failure", Toast.LENGTH_SHORT ).show();
 
             } else {
@@ -188,10 +209,6 @@ public class AdvertisementFragment1 extends Fragment {
             e.printStackTrace();
         }
     }
-
-
-
-
 
 
 //    protected  void getresponse(String adnum,String image,String weburl){
@@ -228,11 +245,11 @@ public class AdvertisementFragment1 extends Fragment {
 
     private void Writetv(String response) {
         try {
-            JSONObject obj = new JSONObject(response);
-            if (obj.optString("status").equalsIgnoreCase("true")){
+            JSONObject obj = new JSONObject( response );
+            if (obj.optString( "status" ).equalsIgnoreCase( "true" )) {
                 Toast.makeText( getContext(), "Successfully updated", Toast.LENGTH_SHORT ).show();
 
-            } else if (obj.optString("status").equalsIgnoreCase("false")) {
+            } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
                 Toast.makeText( getContext(), "failure", Toast.LENGTH_SHORT ).show();
 
             } else {
@@ -245,28 +262,28 @@ public class AdvertisementFragment1 extends Fragment {
     }
 
 
-    protected  void getresponse1(String adnum,String image,String weburl,String imagepath){
-        progress_layout.setVisibility(View.VISIBLE);
+    protected void getresponse1(String adnum, String image, String weburl, String imagepath) {
+        progress_layout.setVisibility( View.VISIBLE );
         Base_URL = login_interface.JSON_URL;
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).
-                addConverterFactory( ScalarsConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl( Base_URL ).
+                addConverterFactory( ScalarsConverterFactory.create() ).build();
 
-        login_interface api = retrofit.create(login_interface.class);
-        Call<String> Call = api.update_advertisement(adnum,image,weburl,"");
+        login_interface api = retrofit.create( login_interface.class );
+        Call<String> Call = api.update_advertisement( adnum, image, weburl, "" );
         Call.enqueue( new Callback<String>() {
             @Override
             public void onResponse(retrofit2.Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    progress_layout.setVisibility(View.GONE);
+                    progress_layout.setVisibility( View.GONE );
                     if (response.body() != null) {
 
-                        Log.i("onsuccess", response.body().toString());
+                        Log.i( "onsuccess", response.body().toString() );
                         String jsonresponse = response.body().toString();
-                        Writetv(jsonresponse);
+                        Writetv( jsonresponse );
 
                     } else {
-                        progress_layout.setVisibility(View.GONE);
-                        Log.i("onEmptyResponse", "Returned empty response");
+                        progress_layout.setVisibility( View.GONE );
+                        Log.i( "onEmptyResponse", "Returned empty response" );
 
                     }
 
@@ -275,56 +292,58 @@ public class AdvertisementFragment1 extends Fragment {
 
             @Override
             public void onFailure(retrofit2.Call<String> call, Throwable t) {
-                progress_layout.setVisibility(View.GONE);
-                Log.i("retrofail", "Failed");
+                progress_layout.setVisibility( View.GONE );
+                Log.i( "retrofail", "Failed" );
             }
         } );
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void cameragallery(ImageView img) {
-        if (ContextCompat.checkSelfPermission(getContext(), READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+    //For camera and gallery
+    @TargetApi(Build.VERSION_CODES.M)
+    public void cameragallery(final ImageView img) {
+        if (ContextCompat.checkSelfPermission( getContext(), READ_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( getContext(), WRITE_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED) {
 //            GalleryPictureIntent();
-            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) ==
+            if (ContextCompat.checkSelfPermission( getContext(), Manifest.permission.CAMERA ) ==
                     PackageManager.PERMISSION_GRANTED) {
-                PickImageDialog.build(new PickSetup())
-                        .setOnPickResult(new IPickResult() {
+                PickImageDialog.build( new PickSetup() )
+                        .setOnPickResult( new IPickResult() {
                             @Override
                             public void onPickResult(PickResult r) {
                                 //TODO: do what you have to...
-                                img.setImageBitmap(r.getBitmap());
+                                img.setImageBitmap( r.getBitmap() );
                             }
-                        })
-                        .setOnPickCancel(new IPickCancel() {
+                        } )
+                        .setOnPickCancel( new IPickCancel() {
                             @Override
                             public void onCancelClick() {
                                 //TODO: do what you have to if user clicked cancel
-                                img.setImageBitmap(null);
+                                img.setImageBitmap( null );
                             }
-                        }).show( (FragmentActivity) getContext() );
+                        } ).show( (FragmentActivity) getContext() );
             } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    Toast.makeText(getContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
+                if (shouldShowRequestPermissionRationale( Manifest.permission.CAMERA )) {
+                    Toast.makeText( getContext(), "Permission Needed.", Toast.LENGTH_LONG ).show();
                 }
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_RESULT);
+                requestPermissions( new String[]{Manifest.permission.CAMERA}, CAMERA_RESULT );
             }
         } else {
-            if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
-                Toast.makeText(getContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
+            if (shouldShowRequestPermissionRationale( READ_EXTERNAL_STORAGE )) {
+                Toast.makeText( getContext(), "Permission Needed.", Toast.LENGTH_LONG ).show();
             }
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, GALLERY_RESULT);
+            requestPermissions( new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, GALLERY_RESULT );
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == CAMERA_RESULT) {
-            if (grantResults.length > 0 && grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (img_click == 1) {
-                    cameragallery(imageView);
+                    cameragallery( i2 );
                 }
             } else {
                 //Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
@@ -332,57 +351,69 @@ public class AdvertisementFragment1 extends Fragment {
             }
         }
         if (requestCode == GALLERY_RESULT) {
-            if (grantResults.length > 0 && grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED && grantResults[ 1 ] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 if (img_click == 1) {
-                    cameragallery(imageView);
+                    cameragallery( i2 );
                 }
             } else {
                 // Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
                 permssiondialog();
             }
         } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            super.onRequestPermissionsResult( requestCode, permissions, grantResults );
         }
 
         switch (requestCode) {
             case 10: {
-                if (grantResults.length > 0 && grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED)
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     return;
                 else {
                     //code for deny
-                    Toast.makeText(getContext(), "Please grant permissions", Toast.LENGTH_LONG).show();
+                    Toast.makeText( getContext(), "Please grant permissions", Toast.LENGTH_LONG ).show();
                 }
             }
 
+
         }
-
-
     }
 
+
     private void permssiondialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setCancelable(false);
-        builder.setTitle("App requires Storage permissions to work perfectly..!");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+        builder.setCancelable( false );
+        builder.setTitle( "App requires Storage permissions to work perfectly..!" );
+        builder.setPositiveButton( "Ok", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 permission = true;
                 dialog.dismiss();
-                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package",getContext().getPackageName(),null));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                Intent intent = new Intent( android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts( "package", getContext().getPackageName(), null ) );
+                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                startActivity( intent );
             }
-        });
-        builder.setNegativeButton("Exit",
+        } );
+        builder.setNegativeButton( "Exit",
                 new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                });
+                } );
         builder.show();
     }
+
+
+
+
+
+
+
+
+
+
+
 
 }

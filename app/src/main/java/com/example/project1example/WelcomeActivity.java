@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -38,11 +39,21 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if(isLogged){
-                    Intent i = new Intent(WelcomeActivity.this,AdminPanelActivity.class);
-                    startActivity(i);
+
+                Log.d("role","123"+preferenceModel.getRole());
+                Log.d("role","123"+preferenceModel.getIslogged());
+
+                if(isLogged && preferenceModel.getRole().equalsIgnoreCase( "admin" )){
+                    Intent i = new Intent( WelcomeActivity.this, AdminPanelActivity.class );
+                    startActivity( i );
                     finish();
                 }
+                    else if(isLogged && preferenceModel.getRole().equalsIgnoreCase( "owner" )){
+                        Intent j = new Intent( WelcomeActivity.this, Dashboard.class );
+                        startActivity( j );
+                        finish();
+                    }
+
                 else {
                     Intent i = new Intent(WelcomeActivity.this,LoginPage.class);
                     startActivity(i);

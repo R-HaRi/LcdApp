@@ -134,7 +134,6 @@ public class Pending_escapers_list extends AppCompatActivity {
                     retroModel.setCreated_on(dataobj.getString("e_created_on"));
                     retroModel.setO_name(dataobj.getString("name"));
                     retroModel.setStatus(dataobj.getString("status"));
-
                     retroModelArrayList.add(retroModel);
                 }
                 progress_layout.setVisibility(View.GONE);

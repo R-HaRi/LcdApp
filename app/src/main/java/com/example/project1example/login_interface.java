@@ -60,7 +60,6 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> all_billescapers(@Field("status") String status);
 
-<<<<<<< HEAD
 
     @POST("add_advertisement.php")
     @FormUrlEncoded
@@ -75,10 +74,8 @@ public interface login_interface {
     @FormUrlEncoded
     Call<String> get_ad_id(@Field("ad_number") String ad_number);
 
-=======
     @POST("delete_billescapers.php")
     @FormUrlEncoded
     Call<String> delete_billescapers(@Field("bid") String bid);
->>>>>>> 776e7468e7be75423224d78e705c08a5fa0cae01
 
 }

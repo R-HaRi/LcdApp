@@ -205,6 +205,176 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+        
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adver1"
+                    android:layout_margin="2.5dp"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="15dp"
+                        >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:id="@+id/adv1"
+                        android:tooltipText="1"
+                        android:scaleType="fitXY"
+                        android:layout_margin="8dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/weblink1"
+                        />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ad"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="10dp"
+                            />
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adver2"
+                    android:layout_margin="2.5dp"
+                    android:layout_below="@+id/adver1"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp"
+                            android:id="@+id/adv2"
+                            android:tooltipText="1"
+                            android:scaleType="fitXY"
+                            android:layout_margin="8dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/weblink2"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ad"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="10dp"
+                            />
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adver3"
+                    android:layout_margin="2.5dp"
+                    android:layout_below="@+id/adver2"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp"
+                            android:id="@+id/adv3"
+                            android:tooltipText="1"
+                            android:scaleType="fitXY"
+                            android:layout_margin="8dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/weblink3"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ad"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="10dp"
+                            />
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adver4"
+                    android:layout_margin="2.5dp"
+                    android:layout_below="@+id/adver3"
+                    >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp"
+                            android:id="@+id/adv4"
+                            android:tooltipText="1"
+                            android:scaleType="fitXY"
+                            android:layout_margin="8dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/weblink4"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ad"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="10dp"
+                            />
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+
+
+            </RelativeLayout>
+
+            
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
     <include layout="@layout/progress_layout"/>

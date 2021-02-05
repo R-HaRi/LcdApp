@@ -3,6 +3,7 @@ package com.example.project1example.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,25 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
         myViewHolder.created_on.setText(retroModelArrayList.get(i).getCreated_on());
         Glide.with(context1).load(login_interface.JSON_URL + retroModelArrayList.get(i).getImage()).placeholder(R.drawable.dummylogo).into(myViewHolder.profile_img);
 
+      myViewHolder.makeacall.setOnClickListener( new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(Intent.ACTION_DIAL);
+              intent.setData( Uri.parse("tel:" +retroModelArrayList.get(i).getMobile1().trim()));
+              context1.startActivity(intent);
+          }
+      } );
 
+      myViewHolder.whatsapp.setOnClickListener( new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+              Uri uri = Uri.parse("smsto:" + retroModelArrayList.get(i).getMobile1().trim());
+              Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+              intent.setPackage("com.whatsapp");
+             context1.startActivity(Intent.createChooser(intent, ""));
+          }
+
+  } );
 
         if (retroModelArrayList.get(i).isExpanded()) {
             myViewHolder.expandableView.setVisibility(View.VISIBLE);
@@ -81,6 +100,7 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,amount,mobilenumber1,mobilenumber2,village,district,neyojakavargam,pincode,created_on;
+        CardView makeacall,whatsapp;
         ImageView profile_img;
         CardView card1;
         ExpandableLinearLayout expandableView;
@@ -119,10 +139,13 @@ public class for_billescaper_list_adapter extends RecyclerView.Adapter<for_bille
             profile_img = itemView.findViewById(R.id.profile_img);
             card1 = itemView.findViewById(R.id.card1);
             expandableView = itemView.findViewById(R.id.card2);
-
+            makeacall=itemView.findViewById( R.id.makeacall );
+            whatsapp=itemView.findViewById( R.id.whatsapp );
             expandableView.setExpandListener(expandListener);
             initializeClicks();
         }
+
+
         private void initializeClicks() {
             itemView.setOnClickListener(view -> {
                 if (expandableView.isExpanded()) {

@@ -39,16 +39,19 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Admin_ownerProfile extends AppCompatActivity {
     String o_uid,Base_URL;
+
     RelativeLayout progress_layout,error_layout;
     String str_name,str_mobile,str_role,str_profilepic,uidi,str_pstatus,str_ostatus;
     TextView name,mobile,role;
     ImageView profilepic;
     RecyclerView recyclerView;
-    LinearLayout admin_control_layout,activate_lv,suspand_lv,delete_lv,edit_lv,call;
+    LinearLayout admin_control_layout,activate_lv,suspand_lv,delete_lv,edit_lv,call,WhatsApp;
     SharedPrefs_model spm;
     Toolbar toolbar;
     int MY_PERMISSIONS_REQUEST_CALL_PHONE=101;
     String Phone;
+
+
 
 
     @Override
@@ -57,6 +60,9 @@ public class Admin_ownerProfile extends AppCompatActivity {
         setContentView(R.layout.activity_admin_owner_profile);
         progress_layout = findViewById(R.id.progress_layout);
         o_uid = getIntent().getStringExtra("uid");
+
+        Log.d( "uid",o_uid );
+
         name=findViewById(R.id.name);
         mobile=findViewById(R.id.mobile);
         role=findViewById(R.id.role);
@@ -69,8 +75,8 @@ public class Admin_ownerProfile extends AppCompatActivity {
         delete_lv=findViewById(R.id.delete_lv);
         edit_lv=findViewById(R.id.edit_lv);
         call=findViewById( R.id.call_lv );
+        WhatsApp=findViewById( R.id.message_lv );
         spm = new SharedPrefs_model(this);
-
 
         configureToolbar();
 
@@ -127,17 +133,28 @@ public class Admin_ownerProfile extends AppCompatActivity {
          public void onClick(View v) {
              Phone = str_mobile;
 
+             Intent i = new Intent(Intent.ACTION_DIAL);
+             i.setData(Uri.parse("tel:" +Phone));
+             startActivity(i);
 
-             Intent callIntent = new Intent(Intent.ACTION_CALL);
-             callIntent.setData(Uri.parse(Phone));
-             if (ActivityCompat.checkSelfPermission(Admin_ownerProfile.this,
-                     Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                 return;
-             }
-             startActivity(callIntent);
+//             Intent callIntent = new Intent(Intent.ACTION_CALL);
+//             callIntent.setData(Uri.parse(Phone));
+//             if (ActivityCompat.checkSelfPermission(Admin_ownerProfile.this,
+//                     Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                 return;
+//             }
+//             startActivity(callIntent);
          }
      } );
-
+ WhatsApp.setOnClickListener( new View.OnClickListener() {
+     @Override
+     public void onClick(View v) {
+         Uri uri = Uri.parse("smsto:" + Phone);
+         Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+         i.setPackage("com.whatsapp");
+         startActivity(Intent.createChooser(i, ""));
+     }
+ } );
 
     }
     private void getResponse_pstatusdelete() {
@@ -301,6 +318,9 @@ public class Admin_ownerProfile extends AppCompatActivity {
         }
     }
 
+
+
+    //get escapers_uid
     private void getResponseAdmin() {
         progress_layout.setVisibility(View.VISIBLE);
         Base_URL = login_interface.JSON_URL;
@@ -385,6 +405,9 @@ public class Admin_ownerProfile extends AppCompatActivity {
 
     }
 
+
+
+    //toolbar
     private void configureToolbar() {
         toolbar = (Toolbar) findViewById( R.id.toolbar );
         toolbar.setTitle( "Owner Profile" );

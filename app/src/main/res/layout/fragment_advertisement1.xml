@@ -12,20 +12,63 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@drawable/addadvertisement"
-        android:id="@+id/addadvert"
-        android:layout_gravity="center_horizontal"
-        />
+        <TextView
+            android:id="@+id/heading12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/card_details"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Add Advertisement Image"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <EditText
+
+        <RelativeLayout
+            android:id="@+id/rr_img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@id/heading12"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/plain_btn_boundry">
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_centerInParent="true"
+                android:alpha="0.8"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:id="@+id/image1"
+                android:src="@drawable/camera" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Click here to add image"/>
+
+            <ImageView
+                android:id="@+id/addadvert"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop" />
+        </RelativeLayout>
+
+
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Web Url"
         android:id="@+id/weblink"
         android:layout_marginTop="25dp"
+        android:inputType="textWebEditText"
         android:layout_margin="10dp"
         />
         <Button

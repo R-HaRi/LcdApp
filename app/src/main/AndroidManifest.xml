@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.project1example" >
+    package="com.example.project1example">
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -22,22 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1Example"
         android:usesCleartextTraffic="true"
-<<<<<<< HEAD
-        tools:replace="android:theme,android:label" >
-        <activity android:name=".LoginPage" >
-        </activity>
-        <activity android:name=".AddAdvertisement" />
-        <activity android:name=".Admin_billescaperprofile" />
-=======
         tools:replace="android:theme,android:label">
-        <activity android:name=".Admin_editBillescapers">
-
-        </activity>
+        <activity android:name=".WebView"></activity>
         <activity android:name=".AddAdvertisement" />
-        <activity android:name=".Admin_billescaperprofile">
-
-        </activity>
->>>>>>> 776e7468e7be75423224d78e705c08a5fa0cae01
+        <activity android:name=".Admin_billescaperprofile"></activity>
+        <activity android:name=".Admin_editBillescapers" />
+        <activity android:name=".LoginPage" />
         <activity android:name=".Admin_billescapers" />
         <activity android:name=".Admin_ownerProfile" />
         <activity android:name=".Edit_owner" />
@@ -51,14 +45,12 @@
         <activity android:name=".OwnerPageActivity" />
         <activity android:name=".OwnersListActivity" />
         <activity android:name=".OwnerSearchActivity" />
-        <activity android:name=".WelcomeActivity" >
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity android:name=".Dashboard" />
         <activity android:name=".MainActivity" />
