@@ -1,5 +1,7 @@
 package com.example.project1example;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -62,5 +64,9 @@ public interface login_interface {
     @POST("delete_billescapers.php")
     @FormUrlEncoded
     Call<String> delete_billescapers(@Field("bid") String bid);
+
+    @POST("update_billescaperprofile.php")
+    @FormUrlEncoded
+    Call<String> update_billescaperprofile(@Field("bid")String bid,@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") TextInputEditText pincode);
 
 }
