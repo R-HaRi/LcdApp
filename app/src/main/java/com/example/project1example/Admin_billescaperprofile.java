@@ -28,11 +28,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class Admin_billescaperprofile extends AppCompatActivity {
     String Base_URL, bid, uidi;
     LinearLayout delete_billEsc, edit_billEsc;
-    String esc_name, esc_amount, esc_mobile1, esc_mobile2, esc_village, esc_district, esc_niyojakavargam, esc_pincode, esc_createdOn, getbid;
+    String esc_name, esc_amount, esc_mobile1, esc_mobile2, esc_village, esc_district, esc_niyojakavargam, esc_pincode, esc_createdOn;
     RelativeLayout progress_layout, error_layout;
     TextView name, amount, phone_number1, phone_number2, villege, district, niyojakavargam, pincode, createdOn;
 
-    String getbidi;
+    String getbid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,11 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         setContentView(R.layout.activity_admin_billescaperprofile);
 
 
-        getbidi = getIntent().getStringExtra("bid");
+        getbid = getIntent().getStringExtra("bid");
 
         progress_layout = findViewById(R.id.progress_layout);
         delete_billEsc = findViewById(R.id.delete_lv);
         edit_billEsc = findViewById(R.id.edit_lv);
-//        bid = getIntent().getStringExtra("bid");
         name = findViewById(R.id.nameesc);
         amount = findViewById(R.id.amountesc);
         phone_number1 = findViewById(R.id.mobilenumber1esc);
@@ -69,13 +68,13 @@ public class Admin_billescaperprofile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Admin_billescaperprofile.this, Admin_editBillescapers.class);
-                i.putExtra("esc_bid",uidi);
+                i.putExtra("edit_bid",getbid);
                 startActivity(i);
             }
         });
 
         get_billEsc_profile();
-        Toast.makeText(Admin_billescaperprofile.this,getbidi,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(Admin_billescaperprofile.this,getbid,Toast.LENGTH_SHORT).show();
 
     }
 
@@ -86,7 +85,7 @@ public class Admin_billescaperprofile extends AppCompatActivity {
                 addConverterFactory(ScalarsConverterFactory.create()).build();
 
         login_interface api = retrofit.create(login_interface.class);
-        Call<String> Call = api.delete_billescapers(getbidi);
+        Call<String> Call = api.delete_billescapers(getbid);
         Call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(retrofit2.Call<String> call, Response<String> response) {
@@ -137,7 +136,7 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).
                 addConverterFactory(ScalarsConverterFactory.create()).build();
         login_interface api = retrofit.create(login_interface.class);
-        Call<String> Call = api.get_escaper_profile_bid(getbidi);
+        Call<String> Call = api.get_escaper_profile_bid(getbid);
         Call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(retrofit2.Call<String> call, Response<String> response) {
@@ -170,8 +169,8 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         try {
             JSONObject obj = new JSONObject(jsonresponse);
             if (obj.optString("status").equalsIgnoreCase("true")) {
+                progress_layout.setVisibility(View.GONE);
                 JSONArray dataArray = obj.getJSONArray("data");
-
                 JSONObject dataobj = dataArray.getJSONObject(0);
 
                 esc_name = dataobj.getString("e_name");
