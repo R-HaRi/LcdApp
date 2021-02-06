@@ -42,6 +42,7 @@ public class Admin_billescapers extends AppCompatActivity {
         error_layout = findViewById(R.id.error_layout);
 
         configureToolbar();
+
         toolbar.setNavigationOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {

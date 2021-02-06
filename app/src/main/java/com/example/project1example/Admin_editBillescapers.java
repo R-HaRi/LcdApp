@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class Admin_editBillescapers extends AppCompatActivity {
     billescapers_list_model spm;
     RelativeLayout progress_layout;
     String esc_name, esc_amount, esc_mobile1, esc_mobile2, esc_village, esc_district, esc_niyojakavargam, esc_pincode;
+    Toolbar toolbar;
 
 
     @Override
@@ -53,6 +55,15 @@ public class Admin_editBillescapers extends AppCompatActivity {
         progress_layout = findViewById(R.id.progress_layout);
 
         edit_billEsc();
+
+        configureToolbar();
+
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,4 +224,12 @@ public class Admin_editBillescapers extends AppCompatActivity {
         esc_niyojakavargam = niyojakavargam.getText().toString().trim();
         esc_pincode = pincode.getText().toString().trim();
     }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
+    }
+
 }

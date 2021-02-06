@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddAdvertisement">
+    tools:context=".AddAdvertisement"
+    android:layout_margin="5dp">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BannerAd"
+        android:text="Banner Ad"
         android:id="@+id/bannerad"
         android:layout_weight="1"
         android:layout_margin="2dp"
@@ -25,7 +26,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add1"
+        android:text="Ad 1"
         android:id="@+id/add1"
         android:layout_weight="1"
         android:layout_margin="2dp"
@@ -33,7 +34,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add2"
+        android:text="Ad 2"
         android:id="@+id/add2"
         android:layout_weight="1"
         android:layout_margin="2dp"
@@ -41,7 +42,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add3"
+        android:text="Ad 3"
         android:id="@+id/add3"
         android:layout_weight="1"
         android:layout_margin="2dp"

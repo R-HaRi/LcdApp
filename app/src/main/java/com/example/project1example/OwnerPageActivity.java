@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,7 @@ public class OwnerPageActivity extends AppCompatActivity {
     RelativeLayout progressbar;
     String uid,Base_URL;
 
+    Toolbar toolbar;
 
 
     @Override
@@ -40,7 +42,14 @@ public class OwnerPageActivity extends AppCompatActivity {
         progressbar=findViewById(R.id.recycle_progressbar);
         recyclerView=findViewById(R.id.recycl_billescaper);
         uid = getIntent().getStringExtra("uid");
+        configureToolbar();
 
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
         getResponse();
 
     }
@@ -114,5 +123,11 @@ public class OwnerPageActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Add Bill Escaper" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
     }
 }
