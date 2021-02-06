@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.project1example.model.SharedPrefs_model;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -172,6 +173,13 @@ public class Dashboard extends AppCompatActivity {
                     case "1":
                         advte1.setText( dataobj.getString( "weblink" ) );
                         Glide.with( getApplicationContext() ).load( Base_URL + dataobj.getString( "image" ) ).placeholder(R.drawable.dummylogo).into( adimg1 );
+
+//                        Picasso.get()
+//                                .load(Base_URL + dataobj.getString( "image" ))
+//                                .resize(50, 50)
+//                                .centerCrop()
+//                                .into(adimg1);
+
                         break;
 
                     case "2":
