@@ -29,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#000"
+            android:background="@color/Ownerprofile"
             android:orientation="vertical"
             android:padding="8dp">
 

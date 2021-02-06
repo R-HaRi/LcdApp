@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class Admin_billescaperprofile extends AppCompatActivity {
     TextView name, amount, phone_number1, phone_number2, villege, district, niyojakavargam, pincode, createdOn;
 
     String getbid;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,14 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         pincode = findViewById(R.id.pincodeesc);
         createdOn = findViewById(R.id.created_onesc);
 
+        configureToolbar();
+
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
 
 
         delete_billEsc.setOnClickListener(new View.OnClickListener() {
@@ -202,5 +212,13 @@ public class Admin_billescaperprofile extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
+    }
+
 }
 

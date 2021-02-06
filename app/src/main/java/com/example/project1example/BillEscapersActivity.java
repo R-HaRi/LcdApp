@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ public class BillEscapersActivity extends AppCompatActivity {
     String Base_URL,uidi;
     LinearLayout addview_list,pending_list,btm_layout;
     SharedPrefs_model spm;
+    Toolbar toolbar;
 
 
 
@@ -50,6 +52,17 @@ public class BillEscapersActivity extends AppCompatActivity {
         btm_layout=findViewById(R.id.btm_layout);
         uidi = getIntent().getStringExtra("uid");
         spm = new SharedPrefs_model(this);
+
+
+        configureToolbar();
+
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
+
 
         if (spm.getRole().equalsIgnoreCase("admin")){
             btm_layout.setVisibility(View.GONE);
@@ -158,5 +171,12 @@ public class BillEscapersActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( " Bill Escaper" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
     }
 }

@@ -8,12 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#075e54</color>
-    <color name="colorPrimaryDark">#042B26</color>
-    <color name="colorAccent">#11D5BE</color>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorAccent">#FF9100</color>
     <color name="colorWhite">#fff</color>
     <color name="red">#DC1010</color>
 
     <color name="button_bg">#E64A19</color>
+    <color name="Ownerprofile">#DD5771</color>
+
+
 
 </resources>

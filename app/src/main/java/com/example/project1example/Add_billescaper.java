@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ public class Add_billescaper extends AppCompatActivity {
     ImageView image1;
     Button btn_add_escaper;
     RelativeLayout progress_layout;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,15 @@ public class Add_billescaper extends AppCompatActivity {
         description=findViewById( R.id.description );
         image1 = findViewById(R.id.image1);
         progress_layout = findViewById(R.id.progress_layout);
+
+        configureToolbar();
+
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
 
         btn_add_escaper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,4 +177,12 @@ public class Add_billescaper extends AppCompatActivity {
 ////                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
 //        }
     }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById( R.id.toolbar );
+        toolbar.setTitle( "Add Bill Escaper" );
+        toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
+        setSupportActionBar( toolbar );
+    }
+
 }
