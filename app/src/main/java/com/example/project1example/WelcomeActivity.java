@@ -30,6 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
         preferenceModel=new SharedPrefs_model( this );
 
         sharedPreferences = this.getSharedPreferences("loggeduser", MODE_PRIVATE);
+        isLogged=sharedPreferences.getBoolean( "islogged",false );
+
+
+
         isLogged=preferenceModel.getIslogged();
         welcomanim= AnimationUtils.loadAnimation( this,R.anim.welcome_anim );
         textView=findViewById( R.id.welcometext );

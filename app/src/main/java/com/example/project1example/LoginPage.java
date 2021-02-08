@@ -41,7 +41,6 @@ public class LoginPage extends AppCompatActivity {
 
     SharedPrefs_model spm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,12 @@ public class LoginPage extends AppCompatActivity {
         spm = new SharedPrefs_model(this);
 
         login_btn=findViewById(R.id.login_btn);
+
+
         sharedPreferences = this.getSharedPreferences("loggeduser", MODE_PRIVATE);
+
+
+
         isLogged = sharedPreferences.getBoolean("islogged", false);
 
 
@@ -119,7 +123,7 @@ public class LoginPage extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("islogged", true);
-                editor.apply();
+                editor.commit();
 
 
                 spm.setIslogged(true);
@@ -133,7 +137,10 @@ public class LoginPage extends AppCompatActivity {
                 spm.setPincode(dataobj.getString("pincode"));
                 spm.setNeyojakavargam(dataobj.getString("neyojakavargam"));
                 spm.setP_status(dataobj.getString("p_status"));
+
+
                 progress_bar.setVisibility(View.GONE);
+
                 Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
                 if (spm.getRole().equalsIgnoreCase("admin")) {
                     Intent i = new Intent(LoginPage.this, AdminPanelActivity.class);

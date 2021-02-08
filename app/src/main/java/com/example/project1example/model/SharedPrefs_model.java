@@ -27,6 +27,8 @@ public class SharedPrefs_model {
     String p_status = "p_status";
 
 
+    String ok="hello";
+
     SharedPreferences.Editor editor;
 
     public SharedPrefs_model(Context context) {
@@ -148,4 +150,16 @@ public class SharedPrefs_model {
     public void setDistict(String distict1) {
         editor.putString(distict, distict1);
         editor.commit();    }
+
+
+    public String getOk() {
+
+
+        return sharedPreferences.getString( ok,"" );
+    }
+
+    public void setOk(String ok1) {
+        editor.putString( ok, ok1);
+        editor.commit();
+    }
 }
