@@ -3,18 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.project1example">
 
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="16" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -26,10 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1Example"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme,android:label">
-        <activity android:name=".WebView"></activity>
+        tools:ignore="AllowBackup">
+        <activity android:name=".WebView"/>
         <activity android:name=".AddAdvertisement" />
-        <activity android:name=".Admin_billescaperprofile"></activity>
+        <activity android:name=".Admin_billescaperprofile"/>
         <activity android:name=".Admin_editBillescapers" />
         <activity android:name=".LoginPage" />
         <activity android:name=".Admin_billescapers" />

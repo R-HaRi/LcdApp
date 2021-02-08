@@ -2,6 +2,7 @@ package com.example.project1example;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -37,6 +39,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.project1example.adapter.for_adminbillescaper_list_adapter;
 import com.example.project1example.model.billescapers_list_model;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -103,8 +106,11 @@ public class AdvertisementFragment1 extends Fragment {
         i2.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                img_click = 1;
-                cameragallery( i2 );
+                ImagePicker.Companion.with((Activity) getContext())
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
             }
         } );
 
@@ -122,6 +128,8 @@ public class AdvertisementFragment1 extends Fragment {
         } catch (Exception e) {
 //                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
         }
+
+
 
 
         post = view.findViewById( R.id.postAdd );
@@ -299,111 +307,37 @@ public class AdvertisementFragment1 extends Fragment {
     }
 
 
-    //For camera and gallery
-    @TargetApi(Build.VERSION_CODES.M)
-    public void cameragallery(final ImageView img) {
-        if (ContextCompat.checkSelfPermission( getContext(), READ_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getContext(), WRITE_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED) {
-//            GalleryPictureIntent();
-            if (ContextCompat.checkSelfPermission( getContext(), Manifest.permission.CAMERA ) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                PickImageDialog.build( new PickSetup() )
-                        .setOnPickResult( new IPickResult() {
-                            @Override
-                            public void onPickResult(PickResult r) {
-                                //TODO: do what you have to...
-                                img.setImageBitmap( r.getBitmap() );
-                            }
-                        } )
-                        .setOnPickCancel( new IPickCancel() {
-                            @Override
-                            public void onCancelClick() {
-                                //TODO: do what you have to if user clicked cancel
-                                img.setImageBitmap( null );
-                            }
-                        } ).show( (FragmentActivity) getContext() );
-            } else {
-                if (shouldShowRequestPermissionRationale( Manifest.permission.CAMERA )) {
-                    Toast.makeText( getContext(), "Permission Needed.", Toast.LENGTH_LONG ).show();
-                }
-                requestPermissions( new String[]{Manifest.permission.CAMERA}, CAMERA_RESULT );
-            }
-        } else {
-            if (shouldShowRequestPermissionRationale( READ_EXTERNAL_STORAGE )) {
-                Toast.makeText( getContext(), "Permission Needed.", Toast.LENGTH_LONG ).show();
-            }
-            requestPermissions( new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, GALLERY_RESULT );
-        }
-    }
 
 
-    @TargetApi(Build.VERSION_CODES.M)
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_RESULT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (img_click == 1) {
-                    cameragallery( i2 );
-                }
-            } else {
-                //Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-                permssiondialog();
-            }
-        }
-        if (requestCode == GALLERY_RESULT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                if (img_click == 1) {
-                    cameragallery( i2 );
-                }
-            } else {
-                // Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-                permssiondialog();
-            }
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
+            Uri fileUri = data.getData();
+            i2.setImageURI(fileUri);
+
+//            //You can get File object from intent
+//            val file:File = ImagePicker.getFile(data)!!
+//
+//                    //You can also get File Path from intent
+//                    val filePath:String = ImagePicker.getFilePath(data)!!
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(getContext(), "ImagePicker error", Toast.LENGTH_SHORT).show();
         } else {
-            super.onRequestPermissionsResult( requestCode, permissions, grantResults );
-        }
-
-        switch (requestCode) {
-            case 10: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    return;
-                else {
-                    //code for deny
-                    Toast.makeText( getContext(), "Please grant permissions", Toast.LENGTH_LONG ).show();
-                }
-            }
-
-
+            Toast.makeText(getContext(), "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private void permssiondialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-        builder.setCancelable( false );
-        builder.setTitle( "App requires Storage permissions to work perfectly..!" );
-        builder.setPositiveButton( "Ok", new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                permission = true;
-                dialog.dismiss();
-                Intent intent = new Intent( android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts( "package", getContext().getPackageName(), null ) );
-                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                startActivity( intent );
-            }
-        } );
-        builder.setNegativeButton( "Exit",
-                new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                } );
-        builder.show();
-    }
+
+
+
+
 
 
 

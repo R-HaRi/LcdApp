@@ -1,11 +1,14 @@
 package com.example.project1example;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -16,10 +19,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -31,7 +37,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Add_billescaper extends AppCompatActivity {
 
-    String uid,str_name,str_phone_number1,str_phone_number2,str_villege,str_district,str_niyojakavargam,str_pincode,str_amount,str_image,str_desc;
+    String uid,str_name,str_phone_number1,str_phone_number2,str_villege,str_district,str_niyojakavargam,str_pincode,val_image,str_amount,str_image,str_desc;
     EditText name,phone_number1,phone_number2,villege,district,niyojakavargam,pincode,amount,description;
     ImageView image1;
     Button btn_add_escaper;
@@ -65,6 +71,17 @@ public class Add_billescaper extends AppCompatActivity {
             }
         } );
 
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.Companion.with(Add_billescaper.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        });
+
         btn_add_escaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +103,26 @@ public class Add_billescaper extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
+            Uri fileUri = data.getData();
+            image1.setImageURI(fileUri);
+
+//            //You can get File object from intent
+//            val file:File = ImagePicker.getFile(data)!!
+//
+//                    //You can also get File Path from intent
+//                    val filePath:String = ImagePicker.getFilePath(data)!!
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, "ImagePicker error", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void getResponse() {
 
         progress_layout.setVisibility(View.VISIBLE);
@@ -100,7 +137,7 @@ public class Add_billescaper extends AppCompatActivity {
                 .client(okHttpClient)
                 .build();
         login_interface api = retrofit.create(login_interface.class);
-        Call<String> call = api.register_escaper(str_name,str_phone_number1,str_phone_number2,str_amount,str_villege,str_district,str_niyojakavargam,str_pincode,uid,"","pending",str_desc);
+        Call<String> call = api.register_escaper(str_name,str_phone_number1,str_phone_number2,str_amount,str_villege,str_district,str_niyojakavargam,str_pincode,uid,val_image,"pending",str_desc);
         call.enqueue(new Callback<String>(){
 
             @Override
@@ -162,20 +199,20 @@ public class Add_billescaper extends AppCompatActivity {
         str_desc=description.getText().toString().trim();
         str_niyojakavargam = niyojakavargam.getText().toString();
 
-//        try {//for converting image to base64 encoding
-//            if (i2.getDrawable() == null) {
-//                val_logo = "";
-////                        Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Bitmap image = ((BitmapDrawable) i2.getDrawable()).getBitmap();
-//                ByteArrayOutputStream byteA = new ByteArrayOutputStream();
-//                image.compress(Bitmap.CompressFormat.JPEG, 100, byteA);
-//                val_logo = Base64.encodeToString(byteA.toByteArray(), Base64.DEFAULT);
-//
-//            }
-//        } catch (Exception e) {
-////                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
-//        }
+        try {//for converting image to base64 encoding
+            if (image1.getDrawable() == null) {
+                val_image = "";
+//                        Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+            } else {
+                Bitmap image = ((BitmapDrawable) image1.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteA = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, byteA);
+                val_image = Base64.encodeToString(byteA.toByteArray(), Base64.DEFAULT);
+
+            }
+        } catch (Exception e) {
+//                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void configureToolbar() {
