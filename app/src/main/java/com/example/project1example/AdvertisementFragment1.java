@@ -75,7 +75,6 @@ public class AdvertisementFragment1 extends Fragment {
     int img_click;
     String val_logo;
 
-
     ImageView i2;
 
     EditText editText;
@@ -94,49 +93,36 @@ public class AdvertisementFragment1 extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.FROYO)
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate( R.layout.fragment_advertisement1, container, false );
-        i2 = view.findViewById( R.id.addadvert );
-        editText = view.findViewById( R.id.weblink );
-        progress_layout = view.findViewById( R.id.progress_layout );
 
-        getAddData( String.valueOf( i ) );
 
-        i2.setOnClickListener( new View.OnClickListener() {
+        i2 = view.findViewById(R.id.image1);
+
+
+        i2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ImagePicker.Companion.with((Activity) getContext())
+            public void onClick(View view) {
+                ImagePicker.Companion.with(AdvertisementFragment1.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
-        } );
+        });
+
+        editText = view.findViewById( R.id.weblink );
+        progress_layout = view.findViewById( R.id.progress_layout );
 
 
-        try {//for converting image to base64 encoding
-            if (i2.getDrawable() == null) {
-                val_logo = "";
-//                        Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
-            } else {
-                Bitmap image = ((BitmapDrawable) i2.getDrawable()).getBitmap();
-                ByteArrayOutputStream byteA = new ByteArrayOutputStream();
-                image.compress( Bitmap.CompressFormat.JPEG, 100, byteA );
-                val_logo = Base64.encodeToString( byteA.toByteArray(), Base64.DEFAULT );
-            }
-        } catch (Exception e) {
-//                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
+        getAddData( String.valueOf( i ) );
         post = view.findViewById( R.id.postAdd );
         post.setVisibility( View.GONE );
         update = view.findViewById( R.id.update );
 
-
+//post
 //        post.setOnClickListener( new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -146,21 +132,38 @@ public class AdvertisementFragment1 extends Fragment {
 //            }
 //        } );
 
+//update
+
 
         update.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try {//for converting image to base64 encoding
+                    if (i2.getDrawable() == null) {
+                        val_logo = "";
+                        Toast.makeText(getContext(), "Please select a logo", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Bitmap image = ((BitmapDrawable) i2.getDrawable()).getBitmap();
+                        ByteArrayOutputStream byteA = new ByteArrayOutputStream();
+                        image.compress(Bitmap.CompressFormat.JPEG, 100, byteA);
+                        val_logo = Base64.encodeToString(byteA.toByteArray(), Base64.DEFAULT);
+                    }
+                } catch (Exception e) {
+//                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+                }
+
                 WebUrl = editText.getText().toString().trim();
-                Log.i( "edittext", "123" + WebUrl );
                 getresponse1( String.valueOf( i ), val_logo, WebUrl, imagePath );
+
+                Log.d( "image1",val_logo );
 
             }
         } );
-
-
         return view;
-    }
 
+
+    }  //oncreate view
 
     protected void getAddData(String adnum) {
         progress_layout.setVisibility( View.VISIBLE );
@@ -203,9 +206,7 @@ public class AdvertisementFragment1 extends Fragment {
 
                 editText.setText( dataobj.getString( "weblink" ) );
                 imagePath = dataobj.getString( "image" );
-                Glide.with( getContext() ).load( Base_URL + imagePath ).into( i2 );
-
-
+                Glide.with( this ).load( login_interface.JSON_URL + imagePath ).placeholder( R.drawable.dummylogo ).into( i2 );
             } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
                 Toast.makeText( getContext(), "failure", Toast.LENGTH_SHORT ).show();
 
@@ -217,7 +218,6 @@ public class AdvertisementFragment1 extends Fragment {
             e.printStackTrace();
         }
     }
-
 
 //    protected  void getresponse(String adnum,String image,String weburl){
 //        progress_layout.setVisibility(View.VISIBLE);
@@ -250,25 +250,6 @@ public class AdvertisementFragment1 extends Fragment {
 //                   }
 //               } );
 //    }
-
-    private void Writetv(String response) {
-        try {
-            JSONObject obj = new JSONObject( response );
-            if (obj.optString( "status" ).equalsIgnoreCase( "true" )) {
-                Toast.makeText( getContext(), "Successfully updated", Toast.LENGTH_SHORT ).show();
-
-            } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
-                Toast.makeText( getContext(), "failure", Toast.LENGTH_SHORT ).show();
-
-            } else {
-                Toast.makeText( getContext(), "Something went wrong please try again later", Toast.LENGTH_SHORT ).show();
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     protected void getresponse1(String adnum, String image, String weburl, String imagepath) {
         progress_layout.setVisibility( View.VISIBLE );
@@ -306,8 +287,23 @@ public class AdvertisementFragment1 extends Fragment {
         } );
     }
 
+    private void Writetv(String response) {
+        try {
+            JSONObject obj = new JSONObject( response );
+            if (obj.optString( "status" ).equalsIgnoreCase( "true" )) {
+                Toast.makeText( getContext(), "Successfully updated", Toast.LENGTH_SHORT ).show();
 
+            } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
+                Toast.makeText( getContext(), "failure", Toast.LENGTH_SHORT ).show();
 
+            } else {
+                Toast.makeText( getContext(), "Something went wrong please try again later", Toast.LENGTH_SHORT ).show();
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -323,31 +319,12 @@ public class AdvertisementFragment1 extends Fragment {
 //
 //                    //You can also get File Path from intent
 //                    val filePath:String = ImagePicker.getFilePath(data)!!
+
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(getContext(), "ImagePicker error", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

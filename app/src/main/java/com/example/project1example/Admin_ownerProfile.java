@@ -1,19 +1,19 @@
 package com.example.project1example;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,12 +25,15 @@ import com.bumptech.glide.Glide;
 import com.example.project1example.adapter.for_adminpendingbillescaper_list_adapter;
 import com.example.project1example.model.SharedPrefs_model;
 import com.example.project1example.model.billescapers_list_model;
+import com.example.project1example.model.owner_list_model;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import  com.example.project1example.model.owner_list_model;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,11 +49,15 @@ public class Admin_ownerProfile extends AppCompatActivity {
     TextView name, mobile, role;
     ImageView profilepic;
     RecyclerView recyclerView;
-    LinearLayout admin_control_layout, activate_lv, suspand_lv, delete_lv, edit_lv, call, WhatsApp;
+    LinearLayout  call, WhatsApp;
     SharedPrefs_model spm;
     Toolbar toolbar;
     int MY_PERMISSIONS_REQUEST_CALL_PHONE = 101;
     String Phone;
+    BottomNavigationView navigationView;
+
+   owner_list_model owner_list_model;
+
 
 
     @Override
@@ -58,26 +65,29 @@ public class Admin_ownerProfile extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admin_owner_profile );
         progress_layout = findViewById( R.id.progress_layout );
-        o_uid = getIntent().getStringExtra( "uid" );
 
-        Log.d( "uid", o_uid );
 
+
+        navigationView=findViewById( R.id.navigationView );
         name = findViewById( R.id.name );
         mobile = findViewById( R.id.mobile );
         role = findViewById( R.id.role );
         profilepic = findViewById( R.id.profilepic );
         recyclerView = findViewById( R.id.recycler );
         error_layout = findViewById( R.id.error_layout );
-        admin_control_layout = findViewById( R.id.admin_control_layout2 );
-        activate_lv = findViewById( R.id.activate_lv );
-        suspand_lv = findViewById( R.id.suspand_lv );
-        delete_lv = findViewById( R.id.delete_lv );
-        edit_lv = findViewById( R.id.edit_lv );
+
         call = findViewById( R.id.call_lv );
         WhatsApp = findViewById( R.id.message_lv );
         spm = new SharedPrefs_model( this );
 
+        owner_list_model = (owner_list_model) this.getIntent().getSerializableExtra( "list" );
+
+        name.setText( owner_list_model.getName() );
+        Glide.with( this ).load( login_interface.JSON_URL + owner_list_model.getImage() ).placeholder( R.drawable.dummylogo ).into( profilepic );
+        mobile.setText( owner_list_model.getMobile() );
+        role.setText( owner_list_model.getRole() );
         configureToolbar();
+        str_ostatus=owner_list_model.getStatus();
 
         toolbar.setNavigationOnClickListener( new View.OnClickListener() {
             @Override
@@ -86,76 +96,129 @@ public class Admin_ownerProfile extends AppCompatActivity {
             }
         } );
 
+        o_uid = owner_list_model.getUid();
+        getescapers_uid(o_uid);
 
-        getResponseprofile();
-        getResponseAdmin();
+
         if (spm.getRole().equalsIgnoreCase( "owner" )) {
-            admin_control_layout.setVisibility( View.GONE );
+            navigationView.setVisibility( View.GONE );
         }
 
-
-        activate_lv.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                str_pstatus = "active";
-                getResponse_pstatus();
-            }
-        } );
-        suspand_lv.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                str_pstatus = "deactive";
-                getResponse_pstatus();
-            }
-        } );
-        delete_lv.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getResponse_pstatusdelete();
-            }
-        } );
-
-        edit_lv.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent( Admin_ownerProfile.this, Edit_owner.class );
-                i.putExtra( "uid", uidi );
-                startActivity( i );
-
-            }
-        } );
-
+        //Make a call
         call.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Phone = str_mobile;
+                Phone = owner_list_model.getMobile();
 
                 Intent i = new Intent( Intent.ACTION_DIAL );
                 i.setData( Uri.parse( "tel:" + Phone ) );
                 startActivity( i );
 
-//             Intent callIntent = new Intent(Intent.ACTION_CALL);
-//             callIntent.setData(Uri.parse(Phone));
-//             if (ActivityCompat.checkSelfPermission(Admin_ownerProfile.this,
-//                     Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                 return;
-//             }
-//             startActivity(callIntent);
             }
         } );
-        WhatsApp.setOnClickListener( new View.OnClickListener() {
+
+
+        //For whatsapp
+        WhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Uri uri = Uri.parse( "smsto:" + Phone );
-//                Intent i = new Intent( Intent.ACTION_SENDTO, uri );
-//                i.setPackage( "com.whatsapp" );
-//                startActivity( Intent.createChooser( i, "" ) );
-                openWhatsApp(v);
+
+                PackageManager pm=getPackageManager();
+                try {
+
+                    String toNumber = owner_list_model.getMobile(); // contains spaces.
+                    toNumber = toNumber.replace("+", "").replace(" ", "");
+
+                    Intent sendIntent = new Intent("android.intent.action.MAIN");
+                    sendIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "HOLA!");
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.setPackage("com.whatsapp");
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
+
+                    PackageInfo info=pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+
+                } catch (PackageManager.NameNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "WhatsApp no esta instalado!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+//navigation action
+        if (str_ostatus.equalsIgnoreCase( "active" )) {
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.activate).setIcon(R.drawable.suspand);
+            menu.findItem(R.id.activate).setTitle("Suspend");
+
+        }
+
+        else if (str_ostatus.equalsIgnoreCase( "deactive" )) {
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.activate).setIcon(R.drawable.activate);
+            menu.findItem(R.id.activate).setTitle("Active");
+
+        }
+
+
+        //bottom navigation bar
+        navigationView.setOnNavigationItemSelectedListener( new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+
+                switch (id){
+                    case R.id.edit:
+                        Intent i = new Intent( Admin_ownerProfile.this, Edit_owner.class );
+                        i.putExtra( "list", owner_list_model );
+                        startActivity( i );
+                        break;
+
+                    case R.id.activate:
+
+                        if (str_ostatus.equalsIgnoreCase( "active" )) {
+                            Menu menu = navigationView.getMenu();
+                            menu.findItem(R.id.activate).setIcon(R.drawable.suspand);
+                            menu.findItem(R.id.activate).setTitle("Suspend");
+
+                            str_pstatus = "deactive";
+                            getResponse_pstatus();
+                        }
+
+                        else if (str_ostatus.equalsIgnoreCase( "deactive" )) {
+                            Menu menu = navigationView.getMenu();
+                            menu.findItem(R.id.activate).setIcon(R.drawable.activate);
+                            menu.findItem(R.id.activate).setTitle("Active");
+                            str_pstatus = "active";
+                            getResponse_pstatus();
+                        }
+                        break;
+                    case R.id.delete:
+                        getResponse_pstatusdelete();
+                        break;
+                    case R.id.logout:
+
+                        getlogout();
+                        break;
+
+
+                    default:
+
+                        break;
+
+                }
+
+
+                return true;
+
+
             }
         } );
 
     }
 
+
+//status updated
     private void getResponse_pstatusdelete() {
         progress_layout.setVisibility( View.VISIBLE );
 
@@ -193,6 +256,7 @@ public class Admin_ownerProfile extends AppCompatActivity {
         } );
     }
 
+//status updated
     private void getResponse_pstatus() {
         progress_layout.setVisibility( View.VISIBLE );
 
@@ -230,6 +294,8 @@ public class Admin_ownerProfile extends AppCompatActivity {
 
     }
 
+
+//status updated
     private void Writetv_pstatus(String response) {
         try {
             JSONObject obj = new JSONObject( response );
@@ -246,71 +312,63 @@ public class Admin_ownerProfile extends AppCompatActivity {
         }
     }
 
-    private void getResponseprofile() {
-        progress_layout.setVisibility( View.VISIBLE );
 
-        Base_URL = login_interface.JSON_URL;
-        Retrofit retrofit = new Retrofit.Builder().baseUrl( Base_URL ).
-                addConverterFactory( ScalarsConverterFactory.create() ).build();
+    //logout
 
-        login_interface api = retrofit.create( login_interface.class );
-        Call<String> Call = api.get_profile_uid( o_uid );
-        Call.enqueue( new Callback<String>() {
+    private void getlogout(){
+         progress_layout.setVisibility( View.VISIBLE );
 
-            @Override
-            public void onResponse(retrofit2.Call<String> call, Response<String> response) {
-                Log.i( "ResponseString", response.body().toString() );
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
+            Base_URL = login_interface.JSON_URL;
+            Retrofit retrofit = new Retrofit.Builder().baseUrl( Base_URL ).
+                    addConverterFactory( ScalarsConverterFactory.create() ).build();
 
-                        Log.i( "ResponseString", response.body().toString() );
-                        String jsonresponse = response.body().toString();
-                        Writetv_profile( jsonresponse );
+            login_interface api = retrofit.create( login_interface.class );
+            Call<String> Call = api.logout( owner_list_model.getMobile() );
+            Call.enqueue( new Callback<String>() {
 
-                    } else {
-                        Log.i( "ResponseString", "Returned empty response" );
+                @Override
+                public void onResponse(retrofit2.Call<String> call, Response<String> response) {
+                    Log.i( "ResponseString", response.body().toString() );
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+
+                            Log.i( "ResponseString", response.body().toString() );
+                            String jsonresponse = response.body().toString();
+                            writeTv( jsonresponse );
+
+                        } else {
+                            Log.i( "ResponseString", "Returned empty response" );
+
+                        }
 
                     }
-
                 }
-            }
 
-            @Override
-            public void onFailure(retrofit2.Call<String> call, Throwable t) {
-                progress_layout.setVisibility( View.GONE );
-                Log.i( "retrofail", "Failed" );
-            }
-        } );
-    }
+                @Override
+                public void onFailure(retrofit2.Call<String> call, Throwable t) {
+                    progress_layout.setVisibility( View.GONE );
+                    Log.i( "retrofail", "Failed" );
+                }
+            } );
+        }
 
-    private void Writetv_profile(String response) {
+        //logout
+    private void writeTv(String response) {
         try {
-            JSONObject obj = new JSONObject( response );
-            if (obj.optString( "status" ).equalsIgnoreCase( "true" )) {
+            JSONObject obj = new JSONObject(response);
+            if (obj.optString("status").equalsIgnoreCase("true")){
+                progress_layout.setVisibility(View.GONE);
+                Toast.makeText(Admin_ownerProfile.this, obj.optString("message"), Toast.LENGTH_SHORT).show();
+//                Intent i = new Intent(this, Admin_ownerProfile.class);
+//                startActivity(i);
+//                finish();
 
-                JSONArray dataArray = obj.getJSONArray( "data" );
-                JSONObject dataobj = dataArray.getJSONObject( 0 );
-                str_profilepic = dataobj.getString( "image" );
-                str_name = dataobj.getString( "name" );
-                str_mobile = dataobj.getString( "mobile" );
-                str_role = dataobj.getString( "role" );
-                str_ostatus = dataobj.getString( "p_status" );
-
-                if (str_ostatus.equalsIgnoreCase( "active" )) {
-                    suspand_lv.setVisibility( View.VISIBLE );
-                } else if (str_ostatus.equalsIgnoreCase( "deactive" )) {
-                    activate_lv.setVisibility( View.VISIBLE );
-
-                }
-
-                Glide.with( this ).load( login_interface.JSON_URL + str_profilepic ).placeholder( R.drawable.dummylogo ).into( profilepic );
-                name.setText( (CharSequence) str_name );
-                mobile.setText( (CharSequence) str_mobile );
-                role.setText( "LCD Wall " + str_role );
-                progress_layout.setVisibility( View.GONE );
-
-            } else if (obj.optString( "status" ).equalsIgnoreCase( "false" )) {
-                progress_layout.setVisibility( View.GONE );
+            } else if (obj.optString("status").equalsIgnoreCase("false")) {
+                progress_layout.setVisibility(View.GONE);
+                Toast.makeText(Admin_ownerProfile.this, obj.optString("message") + "", Toast.LENGTH_SHORT).show();
+            } else {
+                progress_layout.setVisibility(View.GONE);
+                Toast.makeText(Admin_ownerProfile.this, "Error in server", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -319,14 +377,14 @@ public class Admin_ownerProfile extends AppCompatActivity {
 
 
     //get escapers_uid
-    private void getResponseAdmin() {
+    private void getescapers_uid(String uid) {
         progress_layout.setVisibility( View.VISIBLE );
         Base_URL = login_interface.JSON_URL;
         Retrofit retrofit = new Retrofit.Builder().baseUrl( Base_URL ).
                 addConverterFactory( ScalarsConverterFactory.create() ).build();
 
         login_interface api = retrofit.create( login_interface.class );
-        Call<String> Call = api.get_escapers_uid( o_uid );
+        Call<String> Call = api.get_escapers_uid( uid );
         Call.enqueue( new Callback<String>() {
 
             @Override
@@ -357,6 +415,7 @@ public class Admin_ownerProfile extends AppCompatActivity {
         } );
     }
 
+    //get escapers_uid
     private void Writetvadmin(String response) {
         try {
             JSONObject obj = new JSONObject( response );
@@ -412,50 +471,4 @@ public class Admin_ownerProfile extends AppCompatActivity {
         setSupportActionBar( toolbar );
     }
 
-
-    public void openWhatsApp(View view) {
-        PackageManager pm = getPackageManager();
-        try {
-            Intent waIntent = new Intent( Intent.ACTION_SEND );
-            waIntent.setType( "text/plain" );
-            String text = "This is  a Test"; // Replace with your own message.
-
-            PackageInfo info = pm.getPackageInfo( "com.whatsapp", PackageManager.GET_META_DATA );
-            //Check if package exists or not. If not then code
-            //in catch block will be called
-            waIntent.setPackage( "com.whatsapp" );
-
-            waIntent.putExtra( Intent.EXTRA_TEXT, text );
-            startActivity( Intent.createChooser( waIntent, "Share with" ) );
-
-        } catch (PackageManager.NameNotFoundException e) {
-            Toast.makeText( this, "WhatsApp not Installed", Toast.LENGTH_SHORT )
-                    .show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    public void openWhatsApp1(View view) {
-        PackageManager pm = getPackageManager();
-        try {
-
-
-            String toNumber = "91"+Phone; // Replace with mobile phone number without +Sign or leading zeros, but with country code.
-            //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
-
-
-            Intent sendIntent = new Intent( Intent.ACTION_SENDTO, Uri.parse( "whatsapp:" + "" + toNumber + "?body=" + "" ) );
-            sendIntent.setPackage( "com.whatsapp" );
-            startActivity( sendIntent );
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText( Admin_ownerProfile.this, "it may be you dont have whats app", Toast.LENGTH_LONG ).show();
-
-        }
-
-
-    }
 }

@@ -111,6 +111,7 @@ public class Admin_billescapers extends AppCompatActivity {
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));
                     retroModel.setPincode(dataobj.getString("e_pincode"));
                     retroModel.setCreated_on(dataobj.getString("e_created_on"));
+                    retroModel.setStatus( dataobj.getString( "status" ) );
 
                     retroModelArrayList.add(retroModel);
                 }
@@ -133,6 +134,24 @@ public class Admin_billescapers extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

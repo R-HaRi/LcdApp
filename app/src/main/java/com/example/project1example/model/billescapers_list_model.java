@@ -19,6 +19,8 @@ public class billescapers_list_model implements Serializable {
     private String created_on;
     private String o_name;
     private String status;
+    private String description;
+
 
     /////expandview
     private boolean expanded;
@@ -143,5 +145,13 @@ public class billescapers_list_model implements Serializable {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

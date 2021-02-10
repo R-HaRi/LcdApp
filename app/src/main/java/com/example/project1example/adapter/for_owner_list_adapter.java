@@ -2,6 +2,7 @@ package com.example.project1example.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,20 +47,22 @@ public class for_owner_list_adapter extends RecyclerView.Adapter<for_owner_list_
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.p_name.setText(retroModelArrayList.get(i).getName());
-        myViewHolder.p_address.setText(retroModelArrayList.get(i).getAddress());
-        myViewHolder.p_neyojakavargam.setText(retroModelArrayList.get(i).getNeyojakavargam());
-        myViewHolder.p_creaed_on.setText(retroModelArrayList.get(i).getCreated_on());
-        Glide.with(context1).load(login_interface.JSON_URL + retroModelArrayList.get(i).getImage()).placeholder(R.drawable.dummylogo).into(myViewHolder.img);
+
+        owner_list_model Profile = retroModelArrayList.get( i );
+
+        myViewHolder.p_name.setText(Profile.getName());
+        myViewHolder.p_address.setText(Profile.getAddress()+"District".concat( Profile.getDistrict() ) );
+        myViewHolder.p_neyojakavargam.setText(Profile.getNeyojakavargam());
+        Glide.with(context1).load(login_interface.JSON_URL + Profile.getImage()).placeholder(R.drawable.dummylogo).into(myViewHolder.img);
 
 
         myViewHolder.vender_cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Log.d( "imgcheck","1234"+retroModelArrayList.get( i ).getImage() );
                 Intent j = new Intent(context1, Admin_ownerProfile.class);
                 j.putExtra("uid", retroModelArrayList.get(i).getUid());
+                j.putExtra("list", Profile );
 
                 context1.startActivity(j);
             }
@@ -73,7 +76,7 @@ public class for_owner_list_adapter extends RecyclerView.Adapter<for_owner_list_
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView p_name,p_address,p_neyojakavargam,p_creaed_on;
+        TextView p_name,p_address,p_neyojakavargam;
         ImageView img;
         ElasticView vender_cardview;
 
@@ -82,7 +85,6 @@ public class for_owner_list_adapter extends RecyclerView.Adapter<for_owner_list_
             p_name = itemView.findViewById(R.id.p_name);
             p_address = itemView.findViewById(R.id.p_address);
             p_neyojakavargam = itemView.findViewById(R.id.p_neyojakavargam);
-            p_creaed_on = itemView.findViewById(R.id.p_creaed_on);
             img = itemView.findViewById(R.id.img);
             vender_cardview = itemView.findViewById(R.id.vender_cardview);
 

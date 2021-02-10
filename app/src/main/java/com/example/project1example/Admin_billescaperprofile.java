@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.project1example.model.billescapers_list_model;
+import com.example.project1example.model.owner_list_model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,14 +30,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Admin_billescaperprofile extends AppCompatActivity {
-    String Base_URL, bid, uidi;
+    String Base_URL, bid;
     LinearLayout delete_billEsc, edit_billEsc;
-    String esc_name, esc_amount, esc_mobile1, esc_mobile2, esc_village, esc_district, esc_niyojakavargam, esc_pincode, esc_createdOn;
     RelativeLayout progress_layout, error_layout;
     TextView name, amount, phone_number1, phone_number2, villege, district, niyojakavargam, pincode, createdOn;
-
+    ImageView profile_img;
     String getbid;
     Toolbar toolbar;
+
+    billescapers_list_model billescapers_list_model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,10 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         setContentView(R.layout.activity_admin_billescaperprofile);
 
 
-        getbid = getIntent().getStringExtra("bid");
+
+        billescapers_list_model = (billescapers_list_model) this.getIntent().getSerializableExtra( "list" );
+
+        getbid = billescapers_list_model.getBid();
 
         progress_layout = findViewById(R.id.progress_layout);
         delete_billEsc = findViewById(R.id.delete_lv);
@@ -56,7 +63,7 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         niyojakavargam = findViewById(R.id.neyojakavargamesc);
         pincode = findViewById(R.id.pincodeesc);
         createdOn = findViewById(R.id.created_onesc);
-
+        profile_img=findViewById( R.id.profile_img );
         configureToolbar();
 
         toolbar.setNavigationOnClickListener( new View.OnClickListener() {
@@ -66,6 +73,16 @@ public class Admin_billescaperprofile extends AppCompatActivity {
             }
         } );
 
+        name.setText( billescapers_list_model.getName() );
+        amount.setText( billescapers_list_model.getAmount() );
+        phone_number1.setText( billescapers_list_model.getMobile1() );
+        phone_number2.setText( billescapers_list_model.getMobile2() );
+        villege.setText( billescapers_list_model.getAddress() );
+        district.setText( billescapers_list_model.getDistrict() );
+        niyojakavargam.setText( billescapers_list_model.getNeyojakavargam() );
+        pincode.setText( billescapers_list_model.getPincode() );
+        createdOn.setText( billescapers_list_model.getCreated_on() );
+        Glide.with(getApplicationContext()).load(login_interface.JSON_URL + billescapers_list_model.getImage()).placeholder(R.drawable.dummylogo).into(profile_img);
 
         delete_billEsc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,16 +95,15 @@ public class Admin_billescaperprofile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Admin_billescaperprofile.this, Admin_editBillescapers.class);
-                i.putExtra("edit_bid",getbid);
+                i.putExtra("list",billescapers_list_model);
                 startActivity(i);
             }
         });
 
-        get_billEsc_profile();
-//        Toast.makeText(Admin_billescaperprofile.this,getbid,Toast.LENGTH_SHORT).show();
-
     }
 
+
+    //delete bill escapers
     private void delete_billescapers() {
         progress_layout.setVisibility(View.VISIBLE);
         Base_URL = login_interface.JSON_URL;
@@ -122,7 +138,7 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         });
 
     }
-
+//delete bill escapers
     private void Writetv_dltBillEsc(String jsonresponse) {
         try {
             JSONObject obj = new JSONObject(jsonresponse);
@@ -139,79 +155,6 @@ public class Admin_billescaperprofile extends AppCompatActivity {
         }
     }
 
-    private void get_billEsc_profile() {
-
-        progress_layout.setVisibility(View.VISIBLE);
-        Base_URL = login_interface.JSON_URL;
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).
-                addConverterFactory(ScalarsConverterFactory.create()).build();
-        login_interface api = retrofit.create(login_interface.class);
-        Call<String> Call = api.get_escaper_profile_bid(getbid);
-        Call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(retrofit2.Call<String> call, Response<String> response) {
-                Log.i("ResponseString", response.body().toString());
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        Log.i("ResponseString", response.body().toString());
-                        String jsonresponse = response.body().toString();
-                        WriteTV_billEsc(jsonresponse);
-                    } else {
-                        Log.i("ResponseString", "Returned empty response");
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<String> call, Throwable t) {
-                progress_layout.setVisibility(View.GONE);
-                Log.i("retrofail", "Failed");
-
-            }
-        });
-
-    }
-
-    private void WriteTV_billEsc(String jsonresponse) {
-        try {
-            JSONObject obj = new JSONObject(jsonresponse);
-            if (obj.optString("status").equalsIgnoreCase("true")) {
-                progress_layout.setVisibility(View.GONE);
-                JSONArray dataArray = obj.getJSONArray("data");
-                JSONObject dataobj = dataArray.getJSONObject(0);
-
-                esc_name = dataobj.getString("e_name");
-                esc_amount = dataobj.getString("e_amount");
-                esc_mobile1 = dataobj.getString("e_mobile1");
-                esc_mobile2 = dataobj.getString("e_mobile2");
-                esc_village = dataobj.getString("e_village");
-                esc_district = dataobj.getString("e_district");
-                esc_niyojakavargam = dataobj.getString("e_neyojakavargam");
-                esc_pincode = dataobj.getString("e_pincode");
-                esc_createdOn = dataobj.getString("e_created_on");
-
-                name.setText((CharSequence) esc_name);
-                amount.setText((CharSequence) esc_amount);
-                phone_number1.setText((CharSequence) esc_mobile1);
-                phone_number2.setText((CharSequence) esc_mobile2);
-                villege.setText((CharSequence) esc_village);
-                district.setText((CharSequence) esc_district);
-                niyojakavargam.setText((CharSequence) esc_niyojakavargam);
-                pincode.setText((CharSequence) esc_pincode);
-                createdOn.setText((CharSequence) esc_createdOn);
-
-
-            }
-             else if (obj.optString("status").equalsIgnoreCase("false")) {
-                progress_layout.setVisibility(View.GONE);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void configureToolbar() {
         toolbar = (Toolbar) findViewById( R.id.toolbar );

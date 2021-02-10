@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,7 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Dashboard extends AppCompatActivity {
-    CardView search_owners,bill_escapers;
+    Button search_owners,bill_escapers;
     TextView name,mobile,role;
     ImageView profilepic;
     RelativeLayout progress_layout,p_status_warning;
@@ -124,10 +125,41 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(Dashboard.this,WebView.class);
                  intent.putExtra( "link",advte1.getText().toString());
-                 Log.d( "link",advte1.getText().toString() );
                 startActivity( intent );
             }
         } );
+
+
+        adimg2.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Dashboard.this,WebView.class);
+                intent.putExtra( "link",advte2.getText().toString());
+                startActivity( intent );
+            }
+        } );
+
+        adimg3.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Dashboard.this,WebView.class);
+                intent.putExtra( "link",advte3.getText().toString());
+                startActivity( intent );
+            }
+        } );
+
+        adimg4.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Dashboard.this,WebView.class);
+                intent.putExtra( "link",advte4.getText().toString());
+                startActivity( intent );
+            }
+        } );
+
+
+
+
 
     }
     protected void getAddData(String adnum) {
@@ -143,7 +175,6 @@ public class Dashboard extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-
                         progress_layout.setVisibility( View.GONE );
                         Log.i( "onsuccess", response.body().toString() );
                         String jsonresponse = response.body().toString();
@@ -173,13 +204,6 @@ public class Dashboard extends AppCompatActivity {
                     case "1":
                         advte1.setText( dataobj.getString( "weblink" ) );
                         Glide.with( getApplicationContext() ).load( Base_URL + dataobj.getString( "image" ) ).placeholder(R.drawable.dummylogo).into( adimg1 );
-
-//                        Picasso.get()
-//                                .load(Base_URL + dataobj.getString( "image" ))
-//                                .resize(50, 50)
-//                                .centerCrop()
-//                                .into(adimg1);
-
                         break;
 
                     case "2":

@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:inputType="phone"
+                    android:inputType="textMultiLine"
                     android:fontFamily="@font/poppins"
                     android:textColor="#000"/>
             </com.google.android.material.textfield.TextInputLayout>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.project1example.adapter.for_adminbillescaper_list_adapter;
 import com.example.project1example.adapter.for_adminpendingbillescaper_list_adapter;
 import com.example.project1example.adapter.for_billescaper_list_adapter;
 import com.example.project1example.adapter.for_pendingbillescaper_list_adapter;
@@ -50,6 +51,8 @@ public class Pending_escapers_list extends AppCompatActivity {
         isLogged = sharedPreferences.getBoolean("islogged", false);
         spm = new SharedPrefs_model(this);
 
+        uid=spm.getUid();
+
 
         recyclerlist = findViewById(R.id.recyclerlist);
         progress_layout = findViewById(R.id.progress_layout);
@@ -64,99 +67,9 @@ public class Pending_escapers_list extends AppCompatActivity {
             }
         } );
 
-        if (spm.getRole().equalsIgnoreCase("admin")){
-            getResponseAdmin();
-        }else{
-            uid = getIntent().getStringExtra("uid");
-            getResponse();
-        }
-
+        getResponse();
 
     }
-
-    private void getResponseAdmin() {
-        progress_layout.setVisibility(View.VISIBLE);
-        Base_URL = login_interface.JSON_URL;
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).
-                addConverterFactory(ScalarsConverterFactory.create()).build();
-
-        login_interface api = retrofit.create(login_interface.class);
-        Call<String> Call = api.get_escapers_uid(uid);
-        Call.enqueue(new Callback<String>(){
-
-            @Override
-            public void onResponse(retrofit2.Call<String> call, Response<String> response) {
-                Log.i("Response String", response.body().toString());
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-
-                        Log.i("onsuccess", response.body().toString());
-                        String jsonresponse = response.body().toString();
-                        Writetvadmin(jsonresponse);
-
-                    } else {
-                        error_layout.setVisibility(View.VISIBLE);
-                        Log.i("onEmptyResponse", "Returned empty response");
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<String> call, Throwable t) {
-                progress_layout.setVisibility(View.GONE);
-                error_layout.setVisibility(View.VISIBLE);
-                Log.i("retrofail", "Failed");
-            }
-        });
-    }
-
-    private void Writetvadmin(String response) {
-        try {
-            JSONObject obj = new JSONObject(response);
-            if (obj.optString("status").equalsIgnoreCase("true")){
-                ArrayList<billescapers_list_model> retroModelArrayList = new ArrayList<>();
-                JSONArray dataArray = obj.getJSONArray("data");
-                for (int i = 0; i < dataArray.length(); i++){
-                    billescapers_list_model retroModel = new billescapers_list_model();
-                    JSONObject dataobj = dataArray.getJSONObject(i);
-                    retroModel.setBid(dataobj.getString("bid"));
-                    retroModel.setAmount(dataobj.getString("e_amount"));
-                    retroModel.setName(dataobj.getString("e_name"));
-                    retroModel.setImage(dataobj.getString("e_image"));
-                    retroModel.setAddress(dataobj.getString("e_village"));
-                    retroModel.setDistrict(dataobj.getString("e_district"));
-                    retroModel.setNeyojakavargam(dataobj.getString("e_neyojakavargam"));
-                    retroModel.setMobile1(dataobj.getString("e_mobile1"));
-                    retroModel.setMobile2(dataobj.getString("e_mobile2"));
-                    retroModel.setPincode(dataobj.getString("e_pincode"));
-                    retroModel.setCreated_on(dataobj.getString("e_created_on"));
-                    retroModel.setO_name(dataobj.getString("name"));
-                    retroModel.setStatus(dataobj.getString("status"));
-                    retroModelArrayList.add(retroModel);
-                }
-                progress_layout.setVisibility(View.GONE);
-                LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-                recyclerlist.setLayoutManager(gridLayoutManager);
-                for_adminpendingbillescaper_list_adapter adapter = new for_adminpendingbillescaper_list_adapter(retroModelArrayList, this);
-                recyclerlist.setAdapter(adapter);
-
-            } else if (obj.optString("status").equalsIgnoreCase("false")) {
-                progress_layout.setVisibility(View.GONE);
-                error_layout.setVisibility(View.VISIBLE);
-                Toast.makeText(Pending_escapers_list.this, obj.optString("message") + "", Toast.LENGTH_SHORT).show();
-            } else {
-                progress_layout.setVisibility(View.GONE);
-                error_layout.setVisibility(View.VISIBLE);
-                Toast.makeText(Pending_escapers_list.this, "Error in server", Toast.LENGTH_SHORT).show();
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void getResponse() {
         progress_layout.setVisibility(View.VISIBLE);
         Base_URL = login_interface.JSON_URL;
@@ -164,9 +77,7 @@ public class Pending_escapers_list extends AppCompatActivity {
                 addConverterFactory(ScalarsConverterFactory.create()).build();
 
         login_interface api = retrofit.create(login_interface.class);
-        uidi = getIntent().getStringExtra("uid");
-        Call<String> Call = api.get_escapers_uid(uidi);
-
+        Call<String> Call = api.pending_escapers("pending");
         Call.enqueue(new Callback<String>(){
 
             @Override
@@ -174,16 +85,15 @@ public class Pending_escapers_list extends AppCompatActivity {
                 Log.i("Response String", response.body().toString());
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-
                         Log.i("onsuccess", response.body().toString());
                         String jsonresponse = response.body().toString();
                         Writetv(jsonresponse);
 
                     } else {
                         Log.i("onEmptyResponse", "Returned empty response");
-
+                        progress_layout.setVisibility(View.GONE);
+                        error_layout.setVisibility( View.VISIBLE );
                     }
-
                 }
             }
 
@@ -198,6 +108,8 @@ public class Pending_escapers_list extends AppCompatActivity {
 
     private void Writetv(String response) {
         try {
+
+            progress_layout.setVisibility(View.GONE);
             JSONObject obj = new JSONObject(response);
             if (obj.optString("status").equalsIgnoreCase("true")){
                 ArrayList<billescapers_list_model> retroModelArrayList = new ArrayList<>();
@@ -216,15 +128,16 @@ public class Pending_escapers_list extends AppCompatActivity {
                     retroModel.setMobile2(dataobj.getString("e_mobile2"));
                     retroModel.setPincode(dataobj.getString("e_pincode"));
                     retroModel.setCreated_on(dataobj.getString("e_created_on"));
-                    retroModel.setStatus(dataobj.getString("status"));
+                    retroModel.setRef_id( dataobj.getString( "ref_id" ) );
+                    retroModel.setDescription( dataobj.getString( "e_description" ) );
+                    retroModel.setStatus( dataobj.getString( "status" ) );
 
                     retroModelArrayList.add(retroModel);
                 }
-
                 progress_layout.setVisibility(View.GONE);
                 LinearLayoutManager gridLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 recyclerlist.setLayoutManager(gridLayoutManager);
-                for_pendingbillescaper_list_adapter adapter = new for_pendingbillescaper_list_adapter(retroModelArrayList, this);
+                for_adminbillescaper_list_adapter adapter = new for_adminbillescaper_list_adapter(retroModelArrayList, this);
                 recyclerlist.setAdapter(adapter);
 
             } else if (obj.optString("status").equalsIgnoreCase("false")) {
@@ -240,6 +153,10 @@ public class Pending_escapers_list extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
 
     private void configureToolbar() {
         toolbar = (Toolbar) findViewById( R.id.toolbar );

@@ -55,7 +55,7 @@ public class Add_billescaper extends AppCompatActivity {
         phone_number2 = findViewById(R.id.phone_number2);
         villege = findViewById(R.id.villege);
         district=findViewById( R.id.distict );
-        niyojakavargam = findViewById(R.id.neyojakavargam);
+        niyojakavargam = findViewById(R.id.niyojakavargam);
         pincode = findViewById(R.id.pincode);
         amount = findViewById(R.id.amount);
         description=findViewById( R.id.description );
@@ -86,17 +86,17 @@ public class Add_billescaper extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 val_vals();
-                try {
-
-                    if (!str_name.equalsIgnoreCase("")&&!str_phone_number1.equalsIgnoreCase("")&&!str_amount.equalsIgnoreCase("")) {
-
-                        getResponse();
-                    } else {
-                        Toast.makeText(Add_billescaper.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(Add_billescaper.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                }
+//                try {
+//
+//                    if (!str_name.equalsIgnoreCase("")&&!str_phone_number1.equalsIgnoreCase("")&&!str_amount.equalsIgnoreCase("")) {
+//
+//                        getResponse();
+//                    } else {
+//                        Toast.makeText(Add_billescaper.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (Exception e) {
+//                    Toast.makeText(Add_billescaper.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+//
             }
         });
 
@@ -213,6 +213,18 @@ public class Add_billescaper extends AppCompatActivity {
         } catch (Exception e) {
 //                    Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
         }
+
+        if (!str_name.equalsIgnoreCase("") && !str_amount.equalsIgnoreCase("")
+                && !str_phone_number1.equalsIgnoreCase("") && !str_villege.equalsIgnoreCase("")  && !str_niyojakavargam.equalsIgnoreCase("")
+                && !str_pincode.equalsIgnoreCase("") && !str_desc.equalsIgnoreCase( "" ) && !str_district.equalsIgnoreCase( "" ) )  {
+            getResponse();
+
+        } else {
+            Toast.makeText(Add_billescaper.this, "Fill all the values", Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     private void configureToolbar() {

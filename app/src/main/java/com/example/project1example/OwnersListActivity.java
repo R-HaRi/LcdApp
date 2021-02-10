@@ -126,10 +126,13 @@ public class OwnersListActivity extends AppCompatActivity {
                     retroModel.setName(dataobj.getString("name"));
                     retroModel.setMobile(dataobj.getString("mobile"));
                     retroModel.setImage(dataobj.getString("image"));
-                    retroModel.setAddress(dataobj.getString("village")+dataobj.getString("district"));
+                    retroModel.setAddress(dataobj.getString("village"));
+                    retroModel.setDistrict( dataobj.getString("district"));
                     retroModel.setNeyojakavargam(dataobj.getString("neyojakavargam"));
                     retroModel.setPincode(dataobj.getString("pincode"));
                     retroModel.setCreated_on(dataobj.getString("created_on"));
+                    retroModel.setStatus( dataobj.getString( "p_status" ) );
+                    retroModel.setSerialnumber( dataobj.getString( "serial_number" ) );
 
                     retroModelArrayList.add(retroModel);
                 }
@@ -148,7 +151,7 @@ public class OwnersListActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         toolbar = (Toolbar) findViewById( R.id.toolbar );
-        toolbar.setTitle( "Bill Escapers" );
+        toolbar.setTitle( "All Owners" );
         toolbar.setNavigationIcon(  getResources().getDrawable( R.drawable.ic_baseline_arrow_back_ios_24 ) );
         setSupportActionBar( toolbar );
     }

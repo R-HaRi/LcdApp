@@ -106,8 +106,8 @@
                 android:text="Dummy name"
                 android:textColor="#fff"
                 android:textSize="18sp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                style="@style/TextAppearance.MaterialComponents.Headline1"/>
 
             <TextView
                 android:id="@+id/mobile"
@@ -129,6 +129,9 @@
                 android:textColor="#fff" />
 
         </LinearLayout>
+
+
+
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/profilepic"
             android:layout_width="90dp"
@@ -142,69 +145,30 @@
             app:civ_border_color="#fff"
             app:civ_border_width="2dp" />
 
-        <androidx.cardview.widget.CardView
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bill Escapers"
             android:id="@+id/bill_escapers"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/buttoncolour"
+            />
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="4dp"
-            app:cardCornerRadius="8dp"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/Ownerprofile"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:fontFamily="@font/poppins"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
-                    android:text="Bill Escapers"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+            android:text="OwnersList"
             android:id="@+id/search_owners"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="4dp"
-            app:cardCornerRadius="8dp"
-            android:visibility="visible">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/buttoncolour"
+            android:layout_marginTop="10dp"
+            />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/Ownerprofile"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:fontFamily="@font/poppins"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
-                    android:text="Owners List"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-        
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -214,9 +178,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
-
-
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

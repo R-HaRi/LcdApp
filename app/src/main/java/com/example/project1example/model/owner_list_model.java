@@ -1,6 +1,8 @@
 package com.example.project1example.model;
 
-public class owner_list_model {
+import java.io.Serializable;
+
+public class owner_list_model implements Serializable {
 
     private String uid;
     private String role;
@@ -10,7 +12,12 @@ public class owner_list_model {
     private String address;
     private String neyojakavargam;
     private String pincode;
+    private String status;
     private String created_on;
+    private String district;
+    private String serialnumber;
+
+
 
     public String getUid() {
         return uid;
@@ -82,5 +89,29 @@ public class owner_list_model {
 
     public void setCreated_on(String created_on) {
         this.created_on = created_on;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getSerialnumber() {
+        return serialnumber;
+    }
+
+    public void setSerialnumber(String serialnumber) {
+        this.serialnumber = serialnumber;
     }
 }

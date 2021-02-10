@@ -22,6 +22,7 @@ import com.example.project1example.AdminPanelActivity;
 import com.example.project1example.Owner_Register;
 import com.example.project1example.R;
 import com.example.project1example.login_interface;
+import com.example.project1example.model.SharedPrefs_model;
 import com.example.project1example.model.billescapers_list_model;
 
 import org.json.JSONException;
@@ -39,6 +40,7 @@ public class for_adminpendingbillescaper_list_adapter extends RecyclerView.Adapt
     Context context1;
     String bid;
     ArrayList<billescapers_list_model> retroModelArrayList;
+    SharedPrefs_model prefsModel;
 
 
     public for_adminpendingbillescaper_list_adapter(ArrayList<billescapers_list_model> retroModelArrayList, Context context1) {
@@ -52,6 +54,7 @@ public class for_adminpendingbillescaper_list_adapter extends RecyclerView.Adapt
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(context1).inflate(R.layout.for_pendingbillescapers, viewGroup, false);
         MyViewHolder myViewHolder = new MyViewHolder(v);
+        prefsModel=new SharedPrefs_model( context1 );
         return myViewHolder;
     }
 
@@ -67,9 +70,12 @@ public class for_adminpendingbillescaper_list_adapter extends RecyclerView.Adapt
         myViewHolder.owner_name.setText(retroModelArrayList.get(i).getO_name());
         bid = retroModelArrayList.get(i).getBid();
 
+
         if (retroModelArrayList.get(i).getStatus().equalsIgnoreCase("pending")){
             myViewHolder.status.setTextColor(Color.parseColor("#DC1010"));
-            myViewHolder.card1.setOnClickListener(new View.OnClickListener() {
+
+            if (prefsModel.getRole().equalsIgnoreCase( "admin" )){
+                myViewHolder.card1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder builder;
@@ -97,6 +103,7 @@ public class for_adminpendingbillescaper_list_adapter extends RecyclerView.Adapt
             });
         }
 
+        }
 
     }
 

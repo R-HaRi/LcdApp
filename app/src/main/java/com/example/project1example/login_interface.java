@@ -17,14 +17,20 @@ public interface login_interface {
     @POST("register.php")
     @FormUrlEncoded
     Call<String> register(@Field("name") String name, @Field("mobile") String mobile, @Field("village") String village,@Field("district") String district,@Field("neyojakavargam") String neyojakavargam,@Field("pincode") String pincode,
-                          @Field("password") String password,@Field("role") String role,@Field("image") String image,@Field("p_status") String p_status);
+                          @Field("password") String password,@Field("role") String role,@Field("image") String image,@Field("p_status") String p_status,@Field( "serial_number" ) String serial_number);
+
+
+    @POST(" update_owner.php")
+    @FormUrlEncoded
+    Call<String> update_owner(@Field("name") String name, @Field("mobile") String mobile, @Field("village") String village,@Field("district") String district,@Field("neyojakavargam") String neyojakavargam,@Field("pincode") String pincode,
+                          @Field("uid") String uid,@Field("image") String image,@Field("imagepath") String imagepath,@Field( "serial_number" ) String serial_number);
 
 
     @POST("get_owners_list.php")
     @FormUrlEncoded
     Call<String> get_owners_list(@Field("role") String role);
 
-    @POST("get_profile_uid.php")
+    @POST(" .php")
     @FormUrlEncoded
     Call<String> get_profile_uid(@Field("uid") String uid);
 
@@ -82,6 +88,16 @@ public interface login_interface {
 
     @POST("update_billescaperprofile.php")
     @FormUrlEncoded
-    Call<String> update_billescaperprofile(@Field("bid")String bid,@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") TextInputEditText pincode);
+    Call<String> update_billescaperprofile(@Field("bid")String bid,@Field("e_name") String name, @Field("e_mobile1") String mobile1,@Field("e_mobile2") String mobile2,@Field("e_amount") String amount, @Field("e_village") String village,@Field("e_district") String district,@Field("e_neyojakavargam") String neyojakavargam,@Field("e_pincode") String pincode,@Field("status") String status,@Field("image") String image,@Field("imagepath") String imagepath);
+
+
+    @POST("check_login_status.php")
+    @FormUrlEncoded
+    Call<String> check_login_status(@Field("mobile") String mobile);
+
+
+    @POST("logout.php")
+    @FormUrlEncoded
+    Call<String> logout(@Field("mobile") String mobile);
 
 }

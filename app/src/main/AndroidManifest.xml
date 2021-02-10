@@ -5,7 +5,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -22,9 +23,11 @@
         android:theme="@style/Theme.Project1Example"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-        <activity android:name=".WebView"/>
+        <activity android:name=".owner_escaper_uid"></activity>
+        <activity android:name=".admin_pending_escaper_profile" />
+        <activity android:name=".WebView" />
         <activity android:name=".AddAdvertisement" />
-        <activity android:name=".Admin_billescaperprofile"/>
+        <activity android:name=".Admin_billescaperprofile" />
         <activity android:name=".Admin_editBillescapers" />
         <activity android:name=".LoginPage" />
         <activity android:name=".Admin_billescapers" />

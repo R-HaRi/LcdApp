@@ -1,6 +1,7 @@
 package com.example.project1example;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -47,13 +50,12 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Owner_Register extends AppCompatActivity {
-    EditText name,phone_number,address,district,niyojakavargam,pincode;
-    String str_name,str_phone_number,str_address,str_district,str_niyojakavargam,str_pincode,str_image;
+    EditText name,phone_number,address,district,niyojakavargam,pincode,serialnumber;
+    String str_name,str_phone_number,str_address,str_district,str_niyojakavargam,str_pincode,str_image,str_serialnum;
     Button register_btn;
     ProgressBar progress_bar;
     Toolbar toolbar;
     ImageView i2;
-    Uri imageUri;
 
 
     private final int CAMERA_RESULT = 101, GALLERY_RESULT = 102;
@@ -79,17 +81,49 @@ public class Owner_Register extends AppCompatActivity {
         i2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                img_click = 1;
-                cameragallery(i2);
+                ImagePicker.Companion.with(Owner_Register.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
             }
         });
 
 
 
+        name = findViewById(R.id.name);
+        phone_number = findViewById(R.id.phone_number);
+        address = findViewById(R.id.address);
+        district=findViewById( R.id.districtowner);
+        niyojakavargam = findViewById(R.id.niyojakavargam);
+        pincode = findViewById(R.id.pincode);
+        serialnumber=findViewById( R.id.serialnumber );
+        register_btn = findViewById(R.id.register_btn);
+        progress_bar = findViewById(R.id.progress_bar);
+
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validate_vals();
+            }
+        });
+    }
+
+
+    private void validate_vals() {
+        str_name = name.getText().toString();
+        str_phone_number = phone_number.getText().toString();
+        str_address = address.getText().toString();
+        str_district=district.getText().toString();
+        str_niyojakavargam = niyojakavargam.getText().toString();
+        str_pincode = pincode.getText().toString();
+        str_serialnum=serialnumber.getText().toString();
+
+
         try {//for converting image to base64 encoding
             if (i2.getDrawable() == null) {
                 val_logo = "";
-//                        Toast.makeText(Add_Listing.this, "Please select a logo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Owner_Register.this, "Please select a logo", Toast.LENGTH_SHORT).show();
             } else {
                 Bitmap image = ((BitmapDrawable) i2.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteA = new ByteArrayOutputStream();
@@ -103,39 +137,16 @@ public class Owner_Register extends AppCompatActivity {
 
 
 
-        name = findViewById(R.id.name);
-        phone_number = findViewById(R.id.phone_number);
-        address = findViewById(R.id.address);
-        district=findViewById( R.id.distict);
-        niyojakavargam = findViewById(R.id.niyojakavargam);
-        pincode = findViewById(R.id.pincode);
-        register_btn = findViewById(R.id.register_btn);
-        progress_bar = findViewById(R.id.progress_bar);
-
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validate_vals();
-            }
-        });
-    }
-
-    private void validate_vals() {
-        str_name = name.getText().toString();
-        str_phone_number = phone_number.getText().toString();
-        str_address = address.getText().toString();
-       // str_district=district.getText().toString();
-        str_niyojakavargam = niyojakavargam.getText().toString();
-        str_pincode = pincode.getText().toString();
 
         if (!str_name.equalsIgnoreCase("") && !str_phone_number.equalsIgnoreCase("")
-                && !str_address.equalsIgnoreCase("")  && !str_niyojakavargam.equalsIgnoreCase("")
-                && !str_pincode.equalsIgnoreCase("")) {
+                && !str_address.equalsIgnoreCase("") && !str_district.equalsIgnoreCase("")  && !str_niyojakavargam.equalsIgnoreCase("")
+                && !str_pincode.equalsIgnoreCase("") && !str_serialnum.equalsIgnoreCase(""))  {
             getResponse();
         } else {
             Toast.makeText(Owner_Register.this, "Fill all the values", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void getResponse() {
         progress_bar.setVisibility(View.VISIBLE);
@@ -145,10 +156,9 @@ public class Owner_Register extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         login_interface api = retrofit.create(login_interface.class);
-        Call<String> call = api.register(str_name,str_phone_number,str_address,str_district,str_niyojakavargam,str_pincode,"12345","owner",val_logo,"active");
+        Call<String> call = api.register(str_name,str_phone_number,str_address,str_district,str_niyojakavargam,str_pincode,"12345","owner",val_logo,"active",str_serialnum);
 
         call.enqueue(new Callback<String>(){
-
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.i("Responsestring", response.body().toString());
@@ -207,110 +217,26 @@ public class Owner_Register extends AppCompatActivity {
 
 
 
-
-    //For camera and gallery
-    @TargetApi(Build.VERSION_CODES.M)
-    public void cameragallery(final ImageView img) {
-        if (ContextCompat.checkSelfPermission(Owner_Register.this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(Owner_Register.this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//            GalleryPictureIntent();
-            if (ContextCompat.checkSelfPermission(Owner_Register.this, Manifest.permission.CAMERA) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                PickImageDialog.build(new PickSetup())
-                        .setOnPickResult(new IPickResult() {
-                            @Override
-                            public void onPickResult(PickResult r) {
-                                //TODO: do what you have to...
-                                img.setImageBitmap(r.getBitmap());
-                            }
-                        })
-                        .setOnPickCancel(new IPickCancel() {
-                            @Override
-                            public void onCancelClick() {
-                                //TODO: do what you have to if user clicked cancel
-                                img.setImageBitmap(null);
-                            }
-                        }).show(Owner_Register.this);
-            } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-                }
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_RESULT);
-            }
-        } else {
-            if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
-                Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-            }
-            requestPermissions(new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, GALLERY_RESULT);
-        }
-    }
-
+    //camera work
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_RESULT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (img_click == 1) {
-                    cameragallery(i2);
-                }
-            } else {
-                //Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-                permssiondialog();
-            }
-        }
-        if (requestCode == GALLERY_RESULT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                if (img_click == 1) {
-                    cameragallery(i2);
-                }
-            } else {
-                // Toast.makeText(getApplicationContext(), "Permission Needed.", Toast.LENGTH_LONG).show();
-                permssiondialog();
-            }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            //Image Uri will not be null for RESULT_OK
+            Uri fileUri = data.getData();
+            i2.setImageURI(fileUri);
+
+//            //You can get File object from intent
+//            val file:File = ImagePicker.getFile(data)!!
+//
+//                    //You can also get File Path from intent
+//                    val filePath:String = ImagePicker.getFilePath(data)!!
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, "ImagePicker error", Toast.LENGTH_SHORT).show();
         } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        switch (requestCode) {
-            case 10: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    return;
-                else {
-                    //code for deny
-                    Toast.makeText(Owner_Register.this, "Please grant permissions", Toast.LENGTH_LONG).show();
-                }
-            }
-
-
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void permssiondialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(Owner_Register.this);
-        builder.setCancelable(false);
-        builder.setTitle("App requires Storage permissions to work perfectly..!");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                permission = true;
-                dialog.dismiss();
-                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getPackageName(), null));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Exit",
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.show();
-    }
-
 
 
 }

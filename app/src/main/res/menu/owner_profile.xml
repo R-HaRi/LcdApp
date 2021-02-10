@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/edit"
+
+        android:title="Edit"/>
+
+    <item
+        android:id="@+id/activate"
+        android:icon="@drawable/activestatus"
+        android:title="Activate"/>
+
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/delete"
+        android:title="Delete"/>
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_baseline_login_24"
+        android:title="Logout"/>
+</menu>
